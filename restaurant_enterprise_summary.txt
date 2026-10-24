@@ -1,0 +1,64 @@
+================================================================================
+                    RESORTOS AI - HOSPITALITY ENTERPRISE PLATFORM
+                          Portfolio Project Summary for JGS
+================================================================================
+
+1. ENTERPRISE CONCEPT & SCALE
+--------------------------------------------------------------------------------
+- Domain: High-end multi-venue hospitality platform operating across 2 major branches
+  (Branch 1 & Branch 2).
+- Operating Hours & Menus: Seasonal Q1–Q4 rotations with fine dining vs. à la carte.
+- Core Standard Menu Staples:
+  * Chicken Steak
+  * Beef Steak
+  * Chicken Burger
+  * Beef Burger
+  * Fish & Chips
+  * Barramundi
+
+2. CAPACITY & SEATING LAYOUT (PER BRANCH)
+--------------------------------------------------------------------------------
+- Total Simultaneous Capacity: 150 Guests (Main Floor + VIP Wing)
+- Main Dining Hall:
+  * Capacity: 100 Guests
+  * Tables: 50 Tables (2 seats per table)
+  * Features: Flexible joining logic for larger party sizes.
+- VIP Private Dining Sector:
+  * Capacity: 50 Guests
+  * Layout: 4 Modular VIP Rooms (~12–13 seats per room)
+  * Features: Partition/Joining graph logic allowing 1, 2, 3, or all 4 rooms to merge
+    for private corporate/family events.
+- Dining Experience Duration Rules: 2.5-hour time blocks.
+
+3. TECH STACK & ENGINEERING ALIGNMENT (JOHN GALT SERVICES)
+--------------------------------------------------------------------------------
+- Programming Language: Strictly 100% TypeScript (End-to-end type safety, Zod, Prisma).
+- Agent Harness: ECC (`ecc-universal`) for agentic workflows, rule enforcement, 
+  and repo-level skills instead of low-code platforms (e.g., n8n).
+- Vector Database: ChromaDB (Local persistent vector store with hybrid metadata filtering).
+- Dataset: Historical invoice dataset spanning 2020–2025 containing customer contacts,
+  party sizes, order histories, seasonal tags (Q1–Q4), and dietary restrictions.
+
+4. CORE SYSTEM MODULES
+--------------------------------------------------------------------------------
+- Module 1: VIP Guest & Seasonal Marketing RAG (Active)
+  * Ingests 2020–2025 invoice dataset into ChromaDB with rich metadata tags.
+  * Vector search engine paired with hard metadata filtering for campaign drafting.
+  * Strict Safety Enforcement: Guarantees that guests with severe seafood or red-meat 
+    allergies are automatically excluded from conflicting promotional drops.
+
+- Module 2: Cost Anomaly & Expense RAG Engine (Next Step)
+  * Tracks COGS variances, multi-vendor invoice fluctuations, and seasonal 
+    ingredient price surges across quarters.
+
+- Module 3: High-Concurrency Seating & CRUD Module (Planned)
+  * Handles 1-month advance booking drops, 10-minute pessimistic locking on 
+    merged table/room allocations, and AI tool-calling for reservations.
+================================================================================
+
+NOTE:
+- We may create Module 1 or 2 With LANGCHAINJS OR MASTRA (BOTH OPEN SOURCE)  as we see fit
+- We may add llama index later on
+- use KISS RULES - KEEP IT SIMPLE STUPID EVERYTIME!!
+- project timeline is 8 weeks from this file is created (until December 25 2026 at most) 
+- LANGCHAIN JS AND MASTRA TO BE CONNECTED TO DEEPSEEK OR OTHER MODELS OUTSIDE CLAUDE TO KEEP EFFICIENCY

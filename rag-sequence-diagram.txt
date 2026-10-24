@@ -1,0 +1,102 @@
+================================================================================
+     RESORTOS MODULE 1 - RAG SEQUENCE DIAGRAMS  (LangChain.js + ChromaDB, local)
+================================================================================
+
+Participants
+  Marketer   : person or tool calling the API
+  API        : Hono server, localhost:3000            (src/app.ts, src/server.ts)
+  Runner     : campaign orchestration                 (src/rag/campaign-runner.ts)
+  Retriever  : hybrid retrieval + post-checks         (src/rag/retrieve.ts)
+  Rules      : audience + allergy conditions          (src/campaign/*)
+  Embedder   : MiniLM-L6-v2 via LangChain/Transformers.js, runs locally
+  Chroma     : vector DB, localhost:8000              (npx chroma run)
+  CSV        : data/mock/invoices.csv -> guest profiles (source of truth)
+  Drafter    : LangChain ChatPromptTemplate (+ DeepSeek if key) (src/rag/draft.ts)
+  DeepSeek   : external LLM API (optional; only aggregate, PII-free text is sent)
+
+
+--------------------------------------------------------------------------------
+A) INGEST   (npm run ingest; re-run after every CSV change)
+--------------------------------------------------------------------------------
+
+ Operator        Ingest script           CSV / Profiles        Embedder         Chroma
+    |                  |                       |                   |               |
+    |-- npm run ingest>|                       |                   |               |
+    |                  |-- heartbeat ------------------------------------------->|
+    |                  |<------------------------------------------------- ok ---|
+    |                  |-- read + validate --->|                   |               |
+    |                  |   (Zod: types, menu   |                   |               |
+    |                  |    items, totals to   |                   |               |
+    |                  |    the cent, seasons) |                   |               |
+    |                  |<-- 25 invoices -------|                   |               |
+    |                  |-- aggregate per email>|                   |               |
+    |                  |<-- 15 GuestProfiles --|                   |               |
+    |                  |   (food shares, spend, party size,        |               |
+    |                  |    happy hour, wine, quarters, allergies) |               |
+    |                  |                                           |               |
+    |                  |-- delete collection "guest_profiles" ------------------->|
+    |                  |-- profileText(p) x15 -------------------->|               |
+    |                  |   (NO names, contacts or allergy words)   |               |
+    |                  |<-- 15 x 384-dim vectors ------------------|               |
+    |                  |-- upsert(id=guest-<sha256>, vector, text, metadata) ---->|
+    |                  |   metadata = INTEGERS + booleans only:                    |
+    |                  |   redMeatPermille, avgSpendPerVisitCents, maxPartySize,   |
+    |                  |   happyHourPermille, visitedQ1..Q4, allergySeafood, ...   |
+    |<-- "Indexed 15" -|                                                           |
+
+
+--------------------------------------------------------------------------------
+B) RUN A CAMPAIGN   GET /campaigns/:id   or   POST /campaigns/run {spec}
+--------------------------------------------------------------------------------
+
+ Marketer    API        Runner     Retriever     Rules     Embedder    Chroma     CSV     Drafter   DeepSeek
+    |         |           |            |           |           |          |        |         |          |
+    |-- req ->|           |            |           |           |          |        |         |          |
+    |         |-- validate spec (Zod; preset lookup) -> 400 / 404 on failure        |         |          |
+    |         |-- run(spec)>|          |           |           |          |        |         |          |
+    |         |           |-- find --->|           |           |          |        |         |          |
+    |         |           |            |-- conditions(spec) -->|          |        |         |          |
+    |         |           |            |<-- audience rules ----|          |        |         |          |
+    |         |           |            |    + allergy rules (from promoted dishes)  |         |          |
+    |         |           |            |    -> Chroma `where` ($and of clauses)     |         |          |
+    |         |           |            |-- embed(spec.query) ------------>|        |         |          |
+    |         |           |            |<-- query vector -----------------|        |         |          |
+    |         |           |            |-- similaritySearch(vector, k=limit, where) ------>|         |          |
+    |         |           |            |   [SAFETY LAYER 1: allergic guests filtered    |         |          |
+    |         |           |            |    out inside the vector DB]                   |         |          |
+    |         |           |            |<-- hits [(guestId, distance)] sorted by distance|        |          |
+    |         |           |            |                                                |         |          |
+    |         |           |            |-- look up each guestId in source profiles ---->|         |          |
+    |         |           |            |   [SAFETY LAYER 2: re-check every hit against   |         |          |
+    |         |           |            |    ALL rules using CSV data, not index data]    |         |          |
+    |         |           |            |   unknown id / failing rule / missing guest      |         |          |
+    |         |           |            |   -> IndexOutOfDateError -> HTTP 503 "run ingest"|         |          |
+    |         |           |            |   [SAFETY LAYER 3: assertAllergySafe() throws   |         |          |
+    |         |           |            |    if any recipient is allergic -> HTTP 500]    |         |          |
+    |         |           |            |-- in-memory selection: who was EXCLUDED for allergy        |          |
+    |         |           |<-- recipients (ranked, with contacts + reasons),                |          |
+    |         |           |    excludedForAllergy, rules                                   |          |
+    |         |           |                                                                 |          |
+    |         |           |-- draft(spec, {size, segment rules WITHOUT allergy text}) ----->|          |
+    |         |           |                                                     build prompt |          |
+    |         |           |                                       (title, goal, dishes +     |          |
+    |         |           |                                        menu prices, audience     |          |
+    |         |           |                                        size; {{first_name}})     |          |
+    |         |           |                         alt [size == 0]  -> status "skipped"     |          |
+    |         |           |                         alt [no API key] -> status "dry-run"     |          |
+    |         |           |                         alt [API key]    ------ prompt -------->|
+    |         |           |                                                          <-- copy|
+    |         |           |<-- DraftResult {status, prompt, copy} ---------------------------|          |
+    |         |<-- CampaignReport                                                             |          |
+    |<-- 200 {success:true, data:{campaign, rules, audience, excludedForAllergy, draft}}      |          |
+
+
+--------------------------------------------------------------------------------
+C) WHAT LEAVES THE LAPTOP
+--------------------------------------------------------------------------------
+  Embeddings ....... nothing (model runs locally)
+  Chroma ........... nothing (local server, ./chroma-data)
+  DeepSeek ......... only when DEEPSEEK_API_KEY is set, and only the campaign title,
+                     goal, dish names + prices, audience size and segment rules.
+                     Never names, emails, phones or allergies.
+================================================================================

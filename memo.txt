@@ -1,0 +1,145 @@
+================================================================================
+        RESORTOS AI - MODULE 1 DECISION MEMO (VIP Guest & Seasonal Marketing RAG)
+        Date: 2026-10-24
+================================================================================
+
+1. MOCK DATA DECISIONS
+--------------------------------------------------------------------------------
+- Scope: 25 invoices for 2025 only, 15 guests (9 of them repeat guests), both branches.
+- Prices are fixed in USD (menu book: data/mock/menu.txt). A 10% service charge is
+  added to every subtotal. No tax line. A test (menu.test.ts) fails if menu.txt and
+  the code ever disagree, and the CSV loader rejects any invoice whose totals do not
+  match menu prices to the cent.
+- Seasonal specials (one per quarter) are only served in their quarter:
+    Q1 Grilled Prawn Salad (seafood) | Q2 Lamb Shank Ragout (red meat)
+    Q3 Wild Mushroom Risotto (vegetarian) | Q4 Roast Turkey Plate (poultry)
+  Why: each quarter's special belongs to a different food group, so seasonal campaigns
+  hit different audiences and allergy rules.
+- Allergies belong to the person who booked, and the whole table avoids the conflicting
+  food. So an allergic guest's invoices never contain their allergen, which is what
+  "the allergy must make sense with what they ordered" means in the data.
+- Every party orders exactly one main per person, so food shares are meaningful.
+- VIP parties fit their rooms (about 12-13 seats per room; 26+ needs 3 rooms, 50 needs all 4).
+- ADDED A `time` COLUMN. The invoices had dates only, so "do they like happy hour?"
+  could not be answered. Happy hour = visit starting 16:00-17:59, ANY day (most mock
+  dates are Saturdays; changing dates would have meant re-checking quarters).
+  Prices stay the same at happy hour so totals remain consistent.
+- Contacts are fake (@example.com, +1-555 numbers). Real data must never be committed.
+
+2. FEATURES EXTRACTED FROM THE INVOICE LINES (per guest)
+--------------------------------------------------------------------------------
+  Feature                         Source                         Enables campaigns for
+  ------------------------------  -----------------------------  ----------------------------
+  red meat / seafood / poultry /  share of MAIN courses ordered  "fans" of a food group
+  vegetarian share                per food group
+  avg spend per visit             total_usd / visits             big vs budget spenders (>$100?)
+  largest party size              max(party_size)                event hosts (25+) vs small parties
+  VIP visits                      dining_area starts with "VIP"  private-room packages
+  happy hour share                visits 16:00-17:59 / visits    happy hour deals
+  wine per guest                  wine glasses / total guests    wine pairing dinners
+  quarters visited                quarter column                 seasonal launches
+  allergies                       allergies column               HARD EXCLUSION (never a preference)
+
+  Shares are by main course rather than by spend, so one expensive steak does not
+  outweigh three burgers.
+
+3. SEGMENT THRESHOLDS (chosen after profiling all 15 guests)
+--------------------------------------------------------------------------------
+  Red meat fan ........ red meat >= 50% of mains   -> Carlos, Daniel, Emma, James, Mei Lin, Tom
+  Seafood fan ......... seafood  >= 50% of mains   -> Aisha, Lucas, Raj, Sarah
+  Vegetarian-curious .. vegetarian >= 25%          -> Grace, Priya, Raj
+  Event host .......... largest party > 25         -> Carlos, Grace, Hannah, Lucas, Olivia
+  Small party ......... largest party <= 4         -> James, Michael, Raj, Sarah, Emma
+  High spender ........ avg >= $100 per visit      -> everyone except James and Raj
+  Budget .............. avg <  $100 per visit      -> James ($62.70), Raj ($61.60)
+  Happy hour regular .. >= 50% of visits at HH     -> Emma, James, Lucas, Michael, Raj, Sarah, Tom
+  Wine lover .......... >= 0.75 glasses per guest  -> Carlos, Grace, Hannah, James, Olivia, Sarah, Tom
+
+  50% is the natural cut-off: with 2 visits, "half or more" means "a real habit".
+
+4. THE 12 CAMPAIGNS (= test cases in src/campaign/presets.test.ts) AND WHY
+--------------------------------------------------------------------------------
+  #  Campaign                         Audience rule               Result (excluded for allergy)
+  -- -------------------------------- --------------------------- ------------------------------
+  1  Steak Night (Beef Steak)         red meat fans               6 guests
+  2  Barramundi special               seafood fans                4 guests
+  3  Q1 Prawn Salad early access      seafood fans + dined in Q1  3 (Raj only dined in Q3)
+  4  Seafood Festival                 spends $100+                8 (5 EXCLUDED: Olivia, Hannah,
+                                                                  Mei Lin, Daniel, Emma)
+  5  VIP room package (no dish)       event hosts                 5
+  6  Christmas steak+barramundi       event hosts                 3 (2 EXCLUDED: Olivia, Hannah)
+     banquet
+  7  Happy hour wine & fries          happy hour regulars         7
+  8  Budget lunch combo               small parties + under $100  2 (James, Raj)
+  9  Steak & wine pairing             wine lovers                 5 (2 EXCLUDED: Olivia, Hannah)
+  10 Q3 Mushroom Risotto              vegetarian-curious          3
+  11 Q2 Lamb Shank launch             red meat fans + dined Q2    4
+  12 Seafood Gala for poultry-loving  poultry fans + event hosts  0 (BOTH EXCLUDED) -> no LLM call
+     event hosts
+
+  Why these: they cover every dimension asked for (food preference, spend, party size,
+  happy hour, season) plus combinations, and include deliberate traps where the most
+  valuable guests are exactly the ones who must NOT be targeted.
+
+  KEY BUSINESS FINDING: the two biggest accounts (Olivia $3,389 and Hannah $2,210, each
+  hosting 50-person events) are allergic to BOTH seafood and red meat. Any banquet with
+  steak or fish loses them. A poultry/vegetarian event menu is the way to win them back.
+
+5. RAG ARCHITECTURE DECISIONS
+--------------------------------------------------------------------------------
+- Vector DB: ChromaDB, local and free (`npx chroma run`, no Docker), data in ./chroma-data.
+- Embeddings: Xenova/all-MiniLM-L6-v2 run locally through LangChain.js + Transformers.js.
+  DeepSeek has no embeddings API, and local means $0 and no data leaving the laptop.
+- One document per GUEST, not per invoice: campaigns target people, and per-invoice
+  documents would return the same guest several times.
+- Hybrid retrieval: the hard rules (segment + allergy exclusion) are a Chroma metadata
+  `where` filter; semantic similarity to the campaign description only RANKS the
+  survivors (closest match first). Similarity never decides who is allowed in.
+- Allergy safety has 3 independent layers:
+    1) Chroma `where` excludes allergic guests;
+    2) every hit is re-checked in code against the source CSV, not the index;
+    3) assertAllergySafe() throws (never silently filters) before anything is returned.
+  The API also reports who was excluded and why, so marketing can see the trade-off.
+- The embedded profile text contains NO names, contacts or allergy words. Writing
+  "seafood allergy" would make an allergic guest look SIMILAR to a seafood campaign.
+  Food groups a guest never ordered are left out entirely, for the same reason.
+- Chroma metadata holds a hashed guest id plus numbers only. Contacts are joined from the
+  CSV at response time, so the vector store holds no personal contact details.
+- BUG FOUND BY LAYER 2 DURING THE BUILD: Chroma compares an integer metadata value
+  with a float filter by truncating the float (0 >= 0.5 became 0 >= 0 = true), and
+  JavaScript sends shares of 0 and 1 as integers. Non-matching guests came back from
+  Chroma; the re-check caught every one. Fix: all metadata numbers are integers
+  (shares in per-mille, money in cents). Covered by a regression test.
+- Stale index detection: if the CSV changes without `npm run ingest`, retrieval
+  fails with a 503 saying so, instead of returning a silently incomplete audience.
+- LLM drafting (LangChain.js ChatPromptTemplate + @langchain/deepseek): the prompt
+  contains only aggregate, PII-free facts (campaign, dishes with menu prices, audience
+  size and segment). Personalisation uses a {{first_name}} placeholder filled at send
+  time. Without DEEPSEEK_API_KEY it runs as a DRY RUN: full audience + exact prompt,
+  no copy. With 0 eligible guests the LLM is not called at all.
+- Campaigns are typed specs (Zod-validated): 12 presets + any custom spec via
+  POST /campaigns/run. Free-text questions -> spec (via DeepSeek structured output) is
+  a planned next step once a key is available; it was left out to avoid an LLM in the
+  safety path.
+- API: Hono on localhost:3000 with the {success, data, error} response envelope.
+  Unexpected errors are logged server-side and never leaked to the client.
+
+6. TOOLING DECISIONS
+--------------------------------------------------------------------------------
+- 100% TypeScript. Node 25 / ES2024 (Map.groupBy, toSorted).
+- LangChain.js was chosen over Mastra: we only need embeddings, a vector store wrapper
+  and one chat call; Mastra would add a framework we do not need yet (KISS).
+- .npmrc legacy-peer-deps=true: @langchain/community lists ~100 optional peers; one
+  (@browserbasehq/stagehand) demands zod v3 and blocks install. We don't use it. The
+  peers we do use (chromadb, @huggingface/transformers v3) are installed explicitly.
+- Tests: 70 (vitest), including the 12 campaigns run end-to-end against real Chroma.
+
+7. NEXT STEPS
+--------------------------------------------------------------------------------
+- Add DEEPSEEK_API_KEY to .env to switch from dry-run to drafted copy.
+- Natural-language question -> campaign spec (LLM structured output, validated by Zod,
+  then the same safety layers apply).
+- Scale the mock data (more guests/years) and re-check thresholds.
+- Before real data: keep it outside git, review consent for marketing contact.
+- Module 2 (Cost Anomaly RAG) can reuse the invoice parser, Chroma and LangChain setup.
+================================================================================
