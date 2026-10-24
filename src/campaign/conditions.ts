@@ -58,7 +58,11 @@ export function toMetadata(p: GuestProfile): Metadata {
   };
 }
 
-const pct = (share: number) => `${Math.round(share * 100)}%`;
+/** Plain words instead of percentages: 0.5 -> "half", 0.25 -> "a quarter". */
+const portion = (share: number): string => {
+  const words: Readonly<Record<number, string>> = { 0.25: "a quarter", 0.5: "half", 0.75: "three quarters", 1: "all" };
+  return words[share] ?? `${Math.round(share * 100)} in 100`;
+};
 const rule = (
   role: Condition["role"],
   field: string,
@@ -69,14 +73,15 @@ const rule = (
 
 const ALLERGY_FIELD: Readonly<Record<Allergen, string>> = { seafood: "allergySeafood", "red meat": "allergyRedMeat" };
 const below = (field: string, v: number, group: string) =>
-  rule("preference", field, "$lt", permille(v), `${group} is under ${pct(v)} of mains`);
+  rule("preference", field, "$lt", permille(v), `${group} is under ${portion(v)} of their mains`);
+const atLeastPortion = (field: string, v: number, group: string) =>
+  rule("preference", field, "$gte", permille(v), `${group} is at least ${portion(v)} of their mains`);
 
 const RULES: { readonly [K in keyof Audience]-?: (value: NonNullable<Audience[K]>) => Condition } = {
-  minRedMeatShare: (v) => rule("preference", "redMeatPermille", "$gte", permille(v), `red meat is ${pct(v)}+ of mains`),
-  minSeafoodShare: (v) => rule("preference", "seafoodPermille", "$gte", permille(v), `seafood is ${pct(v)}+ of mains`),
-  minPoultryShare: (v) => rule("preference", "poultryPermille", "$gte", permille(v), `poultry is ${pct(v)}+ of mains`),
-  minVegetarianShare: (v) =>
-    rule("preference", "vegetarianPermille", "$gte", permille(v), `vegetarian is ${pct(v)}+ of mains`),
+  minRedMeatShare: (v) => atLeastPortion("redMeatPermille", v, "red meat"),
+  minSeafoodShare: (v) => atLeastPortion("seafoodPermille", v, "seafood"),
+  minPoultryShare: (v) => atLeastPortion("poultryPermille", v, "poultry"),
+  minVegetarianShare: (v) => atLeastPortion("vegetarianPermille", v, "vegetarian"),
   minLargestParty: (v) => rule("preference", "maxPartySize", "$gte", v, `has hosted a party of ${v}+`),
   maxLargestParty: (v) => rule("preference", "maxPartySize", "$lte", v, `parties of ${v} or fewer`),
   minAvgSpendPerVisitUsd: (v) => rule("gate", "avgSpendPerVisitCents", "$gte", cents(v), `spends $${v}+ per visit`),
@@ -85,7 +90,7 @@ const RULES: { readonly [K in keyof Audience]-?: (value: NonNullable<Audience[K]
   maxAvgSpendPerVisitUsd: (v) =>
     rule("preference", "avgSpendPerVisitCents", "$lt", cents(v), `spends under $${v} per visit`),
   minHappyHourShare: (v) =>
-    rule("preference", "happyHourPermille", "$gte", permille(v), `${pct(v)}+ of visits at happy hour`),
+    rule("preference", "happyHourPermille", "$gte", permille(v), `at happy hour on at least ${portion(v)} of their visits`),
   minWinePerGuest: (v) =>
     rule("preference", "winePerGuestPermille", "$gte", permille(v), `${v}+ glasses of wine per guest`),
   minVisits: (v) => rule("gate", "visits", "$gte", v, `${v}+ visits`),
@@ -95,9 +100,9 @@ const RULES: { readonly [K in keyof Audience]-?: (value: NonNullable<Audience[K]
   maxPoultryShare: (v) => below("poultryPermille", v, "poultry"),
   maxVegetarianShare: (v) => below("vegetarianPermille", v, "vegetarian"),
   minChillShare: (v) =>
-    rule("preference", "chillPermille", "$gte", permille(v), `${pct(v)}+ of visits just to chill (no mains)`),
+    rule("preference", "chillPermille", "$gte", permille(v), `just drinks and sides (no mains) on at least ${portion(v)} of their visits`),
   minSnackSpendShare: (v) =>
-    rule("preference", "snackSpendPermille", "$gte", permille(v), `${pct(v)}+ of spend on snacks and drinks`),
+    rule("preference", "snackSpendPermille", "$gte", permille(v), `at least ${portion(v)} of their spend on snacks and drinks`),
   minTotalSpendUsd: (v) => rule("gate", "totalSpendCents", "$gte", cents(v), `spent $${v}+ in total`),
   minVipVisits: (v) => rule("gate", "vipVisits", "$gte", v, `booked VIP rooms ${v}+ time(s)`),
   allergicTo: (a) => rule("gate", ALLERGY_FIELD[a], "$eq", true, `allergic to ${a}`),

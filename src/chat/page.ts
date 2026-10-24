@@ -10,7 +10,16 @@ import type { ChatMessage } from "./sessions.js";
 type Html = HtmlEscapedString | Promise<HtmlEscapedString>;
 
 const money = (n: number) => `$${n.toFixed(2)}`;
-const pct = (share: number) => `${Math.round(share * 100)}%`;
+const ofVisits = (count: number, visits: number) => `${count} of ${visits} visit${visits === 1 ? "" : "s"}`;
+const weightWords = (w: number) => (w === 0.5 ? "half" : `${Math.round(w * 100)} in 100`);
+
+function ordersCell(f: GuestFacts): Html {
+  if (f.foods.length === 0) return html`drinks &amp; sides only`;
+  return html`${f.foods.map(
+    (food) => html`<div>${food.group}: ${ofVisits(food.visits, f.visits)}
+      <span class="muted">(${food.mains} of ${f.totalMains} mains)</span></div>`,
+  )}`;
+}
 
 const understoodLine = (i: Interpretation): Html =>
   html`<p class="muted">Understood as: ${i.understood.map((u) => html`<span class="chip">${u}</span>`)}</p>`;
@@ -18,14 +27,14 @@ const understoodLine = (i: Interpretation): Html =>
 function guestTable(report: CampaignReport, facts: readonly GuestFacts[]): Html {
   const byId = new Map(facts.map((f) => [f.guestId, f]));
   return html`<table>
-    <thead><tr><th>#</th><th>Guest</th><th>Mostly eats</th><th>Avg / visit</th><th>Total</th><th>Largest party</th>
-      <th>Happy hour</th><th>Just chill</th><th>Allergies</th><th>Rank score</th></tr></thead>
+    <thead><tr><th>#</th><th>Guest</th><th>Ordered</th><th>Avg / visit</th><th>Total</th><th>Largest party</th>
+      <th>At happy hour</th><th>Just drinks &amp; sides</th><th>Allergies</th><th>Rank score</th></tr></thead>
     <tbody>${report.audience.recipients.map((r, i) => {
       const f = byId.get(r.guestId);
       return html`<tr><td>${i + 1}</td><td>${r.name}<br /><span class="muted">${r.email}</span></td>
-        <td>${f?.topFoodGroup ?? "-"}</td><td>${f ? money(f.avgSpendPerVisitUsd) : "-"}</td>
+        <td>${f ? ordersCell(f) : "-"}</td><td>${f ? money(f.avgSpendPerVisitUsd) : "-"}</td>
         <td>${f ? money(f.totalSpendUsd) : "-"}</td><td>${f?.maxPartySize ?? "-"}</td>
-        <td>${f ? pct(f.happyHourShare) : "-"}</td><td>${f ? pct(f.chillShare) : "-"}</td>
+        <td>${f ? ofVisits(f.happyHourVisits, f.visits) : "-"}</td><td>${f ? ofVisits(f.chillVisits, f.visits) : "-"}</td>
         <td>${f && f.allergies.length > 0 ? f.allergies.join(", ") : "none"}</td><td>${r.score}</td></tr>`;
     })}</tbody></table>`;
 }
@@ -38,8 +47,9 @@ const excludedBlock = (report: CampaignReport): Html =>
 
 const traceBlock = (report: CampaignReport): Html => html`<details><summary>How the RAG got here</summary><ol>
   ${report.trace.map((t) => html`<li><b>${t.step}</b> (${t.ms} ms): ${t.detail}</li>`)}
-  <li>Ranked by ${pct(report.ranking.semanticWeight)} semantic similarity + ${pct(1 - report.ranking.semanticWeight)} intent
-    (${report.ranking.intentSignals.join(", ") || "semantics only"}).</li></ol></details>`;
+  <li>Ranked ${weightWords(report.ranking.semanticWeight)} by how closely their history reads like your request,
+    ${weightWords(1 - report.ranking.semanticWeight)} by how strongly they match it
+    (${report.ranking.intentSignals.join(", ") || "no extra signal"}).</li></ol></details>`;
 
 const draftBlock = (report: CampaignReport): Html =>
   report.draft.status === "drafted"

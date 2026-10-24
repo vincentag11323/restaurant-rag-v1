@@ -33,8 +33,8 @@ describe("interpretPrompt", () => {
 
   test("explains what it understood in plain words", () => {
     expect(interpretPrompt("create a campaign for non seafood fans at happy hour").understood).toEqual([
-      "seafood is under 25% of mains",
-      "50%+ of visits at happy hour",
+      "seafood is under a quarter of their mains",
+      "at happy hour on at least half of their visits",
     ]);
   });
 

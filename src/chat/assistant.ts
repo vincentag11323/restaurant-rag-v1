@@ -1,7 +1,7 @@
 import { selectAudience } from "../campaign/audience.js";
 import { type CampaignSpecInput, CampaignSpecSchema } from "../campaign/spec.js";
 import type { GuestProfile } from "../domain/guest-profile.js";
-import type { Allergen } from "../domain/menu.js";
+import { type Allergen, FOOD_GROUPS, type FoodGroup } from "../domain/menu.js";
 import type { CampaignReport, CampaignRunner } from "../rag/campaign-runner.js";
 import { type Interpretation, interpretPrompt } from "./interpret.js";
 import { type CampaignProposal, planCampaign } from "./planner.js";
@@ -24,9 +24,11 @@ export interface GuestFacts {
   readonly avgSpendPerVisitUsd: number;
   readonly totalSpendUsd: number;
   readonly maxPartySize: number;
-  readonly happyHourShare: number;
-  readonly chillShare: number;
-  readonly topFoodGroup: string;
+  readonly happyHourVisits: number;
+  readonly chillVisits: number;
+  readonly totalMains: number;
+  /** Food groups they ordered, most mains first: on how many visits, and how many mains. */
+  readonly foods: readonly { readonly group: FoodGroup; readonly visits: number; readonly mains: number }[];
   readonly allergies: readonly Allergen[];
 }
 
@@ -51,17 +53,18 @@ interface AssistantDeps {
 }
 
 function toFacts(p: GuestProfile): GuestFacts {
-  const groups = Object.entries(p.foodShare).filter(([, share]) => share > 0).toSorted((a, b) => b[1] - a[1]);
-  const top = groups[0];
   return {
     guestId: p.guestId,
     visits: p.visits,
     avgSpendPerVisitUsd: p.avgSpendPerVisitUsd,
     totalSpendUsd: p.totalSpendUsd,
     maxPartySize: p.maxPartySize,
-    happyHourShare: p.happyHourShare,
-    chillShare: p.chillShare,
-    topFoodGroup: top ? `${top[0]} ${Math.round(top[1] * 100)}%` : "drinks & sides only",
+    happyHourVisits: p.happyHourVisits,
+    chillVisits: p.chillVisits,
+    totalMains: p.totalMains,
+    foods: FOOD_GROUPS.map((group) => ({ group, visits: p.visitsByGroup[group], mains: p.mainsByGroup[group] }))
+      .filter((f) => f.mains > 0)
+      .toSorted((a, b) => b.mains - a.mains),
     allergies: p.allergies,
   };
 }

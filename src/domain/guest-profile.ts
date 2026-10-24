@@ -30,6 +30,11 @@ export interface GuestProfile {
   readonly chillShare: number;
   /** Share of item spend that went on sides and drinks (0..1). */
   readonly snackSpendShare: number;
+  /** Main courses ordered across all visits, total and per food group (for "X of Y mains"). */
+  readonly totalMains: number;
+  readonly mainsByGroup: Readonly<Record<FoodGroup, number>>;
+  /** Visits on which the table ordered at least one main from each group (for "X of Y visits"). */
+  readonly visitsByGroup: Readonly<Record<FoodGroup, number>>;
 }
 
 const HAPPY_HOUR_START = "16:00";
@@ -72,6 +77,10 @@ function snackShare(invoices: readonly Invoice[]): number {
   return total ? round(spend((item) => !isMain(item)) / total, 3) : 0;
 }
 
+const groupOf = (item: string) => findMenuItem(item)?.foodGroup ?? null;
+const perGroup = (count: (group: FoodGroup) => number) =>
+  Object.fromEntries(FOOD_GROUPS.map((g) => [g, count(g)])) as Record<FoodGroup, number>;
+
 function buildProfile(invoices: readonly Invoice[]): GuestProfile {
   const sorted = invoices.toSorted((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
   const latest = sorted.at(-1);
@@ -111,6 +120,9 @@ function buildProfile(invoices: readonly Invoice[]): GuestProfile {
     chillVisits,
     chillShare: round(chillVisits / sorted.length, 3),
     snackSpendShare: snackShare(sorted),
+    totalMains: [...mainCounts.values()].reduce((a, b) => a + b, 0),
+    mainsByGroup: perGroup((g) => [...mainCounts].filter(([item]) => groupOf(item) === g).reduce((s, [, n]) => s + n, 0)),
+    visitsByGroup: perGroup((g) => sorted.filter((i) => i.lines.some((l) => groupOf(l.item) === g)).length),
   };
 }
 

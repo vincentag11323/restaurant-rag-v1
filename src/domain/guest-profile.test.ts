@@ -61,6 +61,21 @@ describe("buildGuestProfiles", () => {
     expect(byName("Raj Patel")).toMatchObject({ visits: 2, chillVisits: 1, chillShare: 0.5, allergies: ["red meat"] });
   });
 
+  test("counts food groups as visits and as main courses, for 'X of Y' display", () => {
+    expect(byName("Sarah Tan")).toMatchObject({
+      totalMains: 6,
+      mainsByGroup: { seafood: 6, "red meat": 0, poultry: 0, vegetarian: 0 },
+      visitsByGroup: { seafood: 2, "red meat": 0, poultry: 0, vegetarian: 0 },
+    });
+    // One 26-person event: several groups on the same visit, told apart by mains.
+    expect(byName("Carlos Rivera")).toMatchObject({
+      visits: 1,
+      totalMains: 26,
+      mainsByGroup: { "red meat": 14, seafood: 6, poultry: 6, vegetarian: 0 },
+      visitsByGroup: { "red meat": 1, seafood: 1, poultry: 1, vegetarian: 0 },
+    });
+  });
+
   test("captures VIP event hosts and their allergies", () => {
     expect(byName("Olivia Hart")).toMatchObject({
       visits: 2,
