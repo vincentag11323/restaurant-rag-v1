@@ -2,12 +2,12 @@ import { serve } from "@hono/node-server";
 import { createApp } from "./app.js";
 import { createAssistant } from "./chat/assistant.js";
 import { loadConfig } from "./config.js";
-import { loadGuestProfiles } from "./domain/load-profiles.js";
+import { loadInvoicesAndProfiles } from "./domain/load-profiles.js";
 import { createCampaignRunner } from "./rag/campaign-runner.js";
 import { isChromaReachable, openVectorStore } from "./rag/vector-store.js";
 
 const config = loadConfig();
-const profiles = loadGuestProfiles(config.invoicesCsv);
+const { invoices, profiles } = loadInvoicesAndProfiles(config.invoicesCsv);
 
 if (!(await isChromaReachable(config))) {
   process.stderr.write(`Chroma is not reachable at ${config.chromaHost}:${config.chromaPort}. Start it with: npm run chroma\n`);
@@ -21,7 +21,7 @@ const runner = createCampaignRunner({
   log: (line) => process.stdout.write(`${line}\n`),
 });
 
-const assistant = createAssistant({ runner, profiles });
+const assistant = createAssistant({ runner, profiles, invoices });
 
 serve({ fetch: createApp({ runner, assistant }).fetch, port: config.port }, (info) => {
   const llm = config.deepseek.apiKey ? `DeepSeek (${config.deepseek.model})` : "dry-run (no DEEPSEEK_API_KEY)";

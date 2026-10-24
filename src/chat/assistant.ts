@@ -1,8 +1,10 @@
 import { selectAudience } from "../campaign/audience.js";
 import { type CampaignSpecInput, CampaignSpecSchema } from "../campaign/spec.js";
 import type { GuestProfile } from "../domain/guest-profile.js";
+import type { Invoice } from "../domain/invoice.js";
 import { type Allergen, FOOD_GROUPS, type FoodGroup } from "../domain/menu.js";
 import type { CampaignReport, CampaignRunner } from "../rag/campaign-runner.js";
+import { findMentionedGuests } from "./guest-lookup.js";
 import { type Interpretation, interpretPrompt } from "./interpret.js";
 import { type CampaignProposal, planCampaign } from "./planner.js";
 
@@ -15,6 +17,7 @@ export const EXAMPLE_PROMPTS: readonly string[] = [
   "who spent over $500 in total?",
   "campaign for big event hosts",
   "deal for wine lovers in small parties",
+  "tell me about Priya Nair",
 ];
 
 /** Facts shown next to each guest in the chat, so the marketer sees why they are listed. */
@@ -32,8 +35,20 @@ export interface GuestFacts {
   readonly allergies: readonly Allergen[];
 }
 
+/** Everything about one named guest: contact, habits and every invoice (newest first). */
+export interface GuestDetails {
+  readonly name: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly allergies: readonly Allergen[];
+  readonly facts: GuestFacts;
+  readonly lastVisit: string;
+  readonly invoices: readonly Invoice[];
+}
+
 export type AssistantReply =
   | { readonly kind: "help"; readonly examples: readonly string[] }
+  | { readonly kind: "guest"; readonly guests: readonly GuestDetails[] }
   | { readonly kind: "list"; readonly interpretation: Interpretation; readonly report: CampaignReport; readonly facts: readonly GuestFacts[] }
   | {
       readonly kind: "campaign";
@@ -50,6 +65,7 @@ export interface Assistant {
 interface AssistantDeps {
   readonly runner: CampaignRunner;
   readonly profiles: readonly GuestProfile[];
+  readonly invoices: readonly Invoice[];
 }
 
 function toFacts(p: GuestProfile): GuestFacts {
@@ -69,7 +85,19 @@ function toFacts(p: GuestProfile): GuestFacts {
   };
 }
 
-export function createAssistant({ runner, profiles }: AssistantDeps): Assistant {
+export function createAssistant({ runner, profiles, invoices }: AssistantDeps): Assistant {
+  const details = (p: GuestProfile): GuestDetails => ({
+    name: p.name,
+    email: p.email,
+    phone: p.phone,
+    allergies: p.allergies,
+    facts: toFacts(p),
+    lastVisit: p.lastVisit,
+    invoices: invoices
+      .filter((i) => i.guest.email === p.email)
+      .toSorted((a, b) => `${b.date}${b.time}`.localeCompare(`${a.date}${a.time}`)),
+  });
+
   const facts = (report: CampaignReport | null) =>
     (report?.audience.recipients ?? []).flatMap((r) => {
       const profile = profiles.find((p) => p.guestId === r.guestId);
@@ -78,6 +106,10 @@ export function createAssistant({ runner, profiles }: AssistantDeps): Assistant 
 
   return {
     async reply(prompt) {
+      // A named guest ("elaborate priya nair") is a lookup, not a segment question.
+      const named = findMentionedGuests(prompt, profiles);
+      if (named.length > 0) return { kind: "guest", guests: named.map(details) };
+
       const interpretation = interpretPrompt(prompt);
       if (interpretation.intent === "help") return { kind: "help", examples: EXAMPLE_PROMPTS };
 

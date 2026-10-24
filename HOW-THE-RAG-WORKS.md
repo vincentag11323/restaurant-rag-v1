@@ -177,6 +177,7 @@ Words the robot understands:
 | *under $100*, *budget* | spends under that per visit |
 | *big parties*, *event hosts* / *small parties*, *couples* | biggest party 26+ / 4 or fewer |
 | *VIP*, *Q1-Q4*, *regulars* | booked a VIP room / visited that quarter / 2+ visits |
+| *tell me about Priya Nair*, *elaborate raj* | everything about that one guest: contact, allergies, habits and every invoice |
 
 The robot doesn't need the internet or a paid AI for any of this. With a DeepSeek key, it also
 writes the invitation email.

@@ -1,7 +1,7 @@
 import { html } from "hono/html";
 import type { HtmlEscapedString } from "hono/utils/html";
 import type { CampaignReport } from "../rag/campaign-runner.js";
-import type { AssistantReply, GuestFacts } from "./assistant.js";
+import type { AssistantReply, GuestDetails, GuestFacts } from "./assistant.js";
 import type { Interpretation } from "./interpret.js";
 import type { ChatMessage } from "./sessions.js";
 
@@ -58,11 +58,31 @@ const draftBlock = (report: CampaignReport): Html =>
         <p class="muted">The exact prompt the RAG would send to DeepSeek (no names, contacts or allergies):</p>
         <pre>${report.draft.prompt}</pre></details>`;
 
+function guestCard(g: GuestDetails): Html {
+  const f = g.facts;
+  return html`<div class="offer"><h3>${g.name}</h3>
+      <p>${g.email} · ${g.phone}</p>
+      <p class="${g.allergies.length > 0 ? "warn" : "muted"}">Allergies: ${g.allergies.length > 0 ? g.allergies.join(", ") : "none"}</p></div>
+    <ul>
+      <li>${f.visits} visit${f.visits === 1 ? "" : "s"}, last on ${g.lastVisit}</li>
+      <li>Spent ${money(f.totalSpendUsd)} in total, ${money(f.avgSpendPerVisitUsd)} per visit; largest party ${f.maxPartySize}</li>
+      <li>At happy hour: ${ofVisits(f.happyHourVisits, f.visits)} · Just drinks &amp; sides: ${ofVisits(f.chillVisits, f.visits)}</li>
+      <li>Ordered: ${ordersCell(f)}</li>
+    </ul>
+    <p><b>Invoices</b> (newest first)</p>
+    <table><thead><tr><th>Invoice</th><th>When</th><th>Branch</th><th>Where</th><th>Party</th><th>Ordered</th><th>Total</th></tr></thead>
+      <tbody>${g.invoices.map(
+        (i) => html`<tr><td>${i.id}</td><td>${i.date} ${i.time}</td><td>${i.branch}</td><td>${i.diningArea}</td>
+          <td>${i.partySize}</td><td>${i.lines.map((l) => `${l.quantity}x ${l.item}`).join(", ")}</td><td>${money(i.totalUsd)}</td></tr>`,
+      )}</tbody></table>`;
+}
+
 function renderReply(reply: AssistantReply): Html {
   if (reply.kind === "help") {
-    return html`<p>I can find guests and design campaigns from your invoices. Try one of these:</p>
+    return html`<p>I can find guests, design campaigns, or show everything about a guest you name. Try one of these:</p>
       <ul>${reply.examples.map((e) => html`<li>${e}</li>`)}</ul>`;
   }
+  if (reply.kind === "guest") return html`${reply.guests.map(guestCard)}`;
   if (reply.kind === "list") {
     const n = reply.report.audience.count;
     return html`${understoodLine(reply.interpretation)}
