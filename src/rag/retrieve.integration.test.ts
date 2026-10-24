@@ -3,6 +3,7 @@ import { selectAudience } from "../campaign/audience.js";
 import { PRESET_CAMPAIGNS, findPreset } from "../campaign/presets.js";
 import { loadConfig } from "../config.js";
 import { loadGuestProfiles } from "../domain/load-profiles.js";
+import { evaluateRanking } from "./ranking-eval.js";
 import { type GuestProfileStore, findRecipients } from "./retrieve.js";
 import { isChromaReachable, rebuildIndex } from "./vector-store.js";
 
@@ -30,13 +31,42 @@ describe.skipIf(!chromaUp)("RAG retrieval against local Chroma", () => {
     },
   );
 
-  test("ranks seafood lovers first for the seafood festival", async () => {
+  test("ranks seafood lovers first for the seafood festival, ordered by hybrid score", async () => {
     const result = await findRecipients(store, profiles, findPreset("seafood-festival-high-spenders"));
 
-    expect(["Sarah Tan", "Lucas Martin", "Aisha Rahman"]).toContain(result.recipients[0]?.name);
-    const distances = result.recipients.map((r) => r.distance);
-    expect(distances).toEqual(distances.toSorted((a, b) => a - b));
+    expect(result.recipients.slice(0, 2).map((r) => r.name)).toEqual(["Sarah Tan", "Lucas Martin"]);
+    const scores = result.recipients.map((r) => r.score);
+    expect(scores).toEqual(scores.toSorted((a, b) => b - a));
+    expect(result.ranking.intentSignals).toEqual(["likes seafood (Barramundi)"]);
   });
+
+  test("finding: ranks the biggest event hosts first (pure semantics put a 32-person host first)", async () => {
+    const result = await findRecipients(store, profiles, findPreset("vip-event-hosts-room-package"));
+
+    expect(result.recipients.slice(0, 2).map((r) => r.name).sort()).toEqual(["Hannah Kim", "Olivia Hart"]);
+  });
+
+  test("finding: ranks 100% happy-hour regulars above 50% ones (pure semantics had it backwards)", async () => {
+    const result = await findRecipients(store, profiles, findPreset("happy-hour-regulars"));
+    const share = (name: string) => profiles.find((p) => p.name === name)?.happyHourShare ?? 0;
+
+    const shares = result.recipients.map((r) => share(r.name));
+    expect(shares).toEqual(shares.toSorted((a, b) => b - a));
+  });
+
+  test("traces every pipeline stage in order", async () => {
+    const result = await findRecipients(store, profiles, findPreset("seafood-gala-poultry-event-hosts"));
+
+    expect(result.trace.map((t) => t.step)).toEqual(["plan", "search", "verify", "rerank"]);
+    expect(result.trace[1]?.detail).toBe("skipped: nobody eligible");
+  });
+
+  test("ranking quality stays above the tuned baseline (regression guard)", async () => {
+    const report = await evaluateRanking(store, profiles);
+
+    expect(report.meanSpearman).toBeGreaterThanOrEqual(0.8);
+    expect(report.rows.filter((r) => r.spearman < 0)).toEqual([]);
+  }, EMBEDDING_TIMEOUT_MS);
 
   test("reports guests excluded for allergies and why each recipient was chosen", async () => {
     const result = await findRecipients(store, profiles, findPreset("seafood-festival-high-spenders"));

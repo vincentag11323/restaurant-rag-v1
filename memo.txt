@@ -93,8 +93,9 @@
 - One document per GUEST, not per invoice: campaigns target people, and per-invoice
   documents would return the same guest several times.
 - Hybrid retrieval: the hard rules (segment + allergy exclusion) are a Chroma metadata
-  `where` filter; semantic similarity to the campaign description only RANKS the
-  survivors (closest match first). Similarity never decides who is allowed in.
+  `where` filter; the survivors are then RANKED by 0.5 x semantic similarity +
+  0.5 x campaign intent (see rag-tuning-findings.txt). Ranking never decides who is
+  allowed in.
 - Allergy safety has 3 independent layers:
     1) Chroma `where` excludes allergic guests;
     2) every hit is re-checked in code against the source CSV, not the index;
@@ -132,9 +133,19 @@
 - .npmrc legacy-peer-deps=true: @langchain/community lists ~100 optional peers; one
   (@browserbasehq/stagehand) demands zod v3 and blocks install. We don't use it. The
   peers we do use (chromadb, @huggingface/transformers v3) are installed explicitly.
-- Tests: 70 (vitest), including the 12 campaigns run end-to-end against real Chroma.
+- Tests: 82 (vitest), including the 12 campaigns run end-to-end against real Chroma
+  and a ranking-quality regression guard (`npm run eval:ranking`).
 
-7. NEXT STEPS
+7. FINE-TUNING (details + sequence diagram: rag-tuning-findings.txt)
+--------------------------------------------------------------------------------
+- Pure vector ranking scored 0.64 mean Spearman: embeddings capture topic, not
+  magnitude (party of 50 vs 32), and happy-hour order was backwards (-0.43).
+- Hybrid re-rank (semantic + campaign intent; spend/visit/season/allergy rules are
+  gates and never boost rank) scores 0.87, top-1 9/10. Weight 0.5 chosen by sweep.
+- Retrieval is now 5 named, traced stages: plan -> search -> verify -> rerank -> draft.
+  The trace is returned by the API and logged once per campaign (no contact details).
+
+8. NEXT STEPS
 --------------------------------------------------------------------------------
 - Add DEEPSEEK_API_KEY to .env to switch from dry-run to drafted copy.
 - Natural-language question -> campaign spec (LLM structured output, validated by Zod,

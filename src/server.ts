@@ -13,7 +13,12 @@ if (!(await isChromaReachable(config))) {
   process.exit(1);
 }
 
-const runner = createCampaignRunner({ store: openVectorStore(config), profiles, deepseek: config.deepseek });
+const runner = createCampaignRunner({
+  store: openVectorStore(config),
+  profiles,
+  deepseek: config.deepseek,
+  log: (line) => process.stdout.write(`${line}\n`),
+});
 
 serve({ fetch: createApp(runner).fetch, port: config.port }, (info) => {
   const llm = config.deepseek.apiKey ? `DeepSeek (${config.deepseek.model})` : "dry-run (no DEEPSEEK_API_KEY)";

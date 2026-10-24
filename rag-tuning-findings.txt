@@ -1,0 +1,106 @@
+================================================================================
+   RESORTOS MODULE 1 - RAG FINE-TUNING: FINDINGS + CLEARER FLOW (sequence diagram)
+   Date: 2026-10-24   |   Companion to rag-sequence-diagram.txt (original flow)
+================================================================================
+
+SUMMARY OF FINDINGS
+--------------------------------------------------------------------------------
+ #  Finding                                         Evidence                     Fix
+ -- ----------------------------------------------- ---------------------------- -------------------------
+ F1 Embeddings capture TOPIC, not MAGNITUDE.        Event hosts: Lucas (party 32) Hybrid re-rank: score =
+    "parties of 2 to 50" vs "2 to 32" embed         ranked #1 above Hannah and    0.5 * semantic
+    almost identically.                             Olivia (party 50).            + 0.5 * campaign intent
+                                                    Spearman 0.36, top-1 MISS.    -> Spearman 0.87, top-1 ok
+ F2 Binary profile phrases destroy ordering.        Happy hour: everyone >= 50%   Intent uses the actual
+    Every regular gets the same sentence            gets "Often visits during     happyHourPermille number
+    ("Often visits during happy hour").             happy hour". 100% regulars    -> Spearman 0.87
+                                                    ranked BELOW 50% ones.
+                                                    Spearman -0.43 (backwards).
+ F3 Eligibility gates must not boost rank.          Seafood Festival: counting    Rules are tagged
+    "$100+ per visit" says who MAY receive it,      "spend $100+" as intent       preference vs gate;
+    not what the campaign is ABOUT (seafood).       dropped Spearman 0.63 -> 0.49 gates (spend, visits,
+                                                    (Michael, 33% seafood, #2).   season, allergy) never
+                                                                                  rank -> Spearman 0.90
+ F4 Top-k BEFORE re-ranking would hide guests.      Design flaw found while       SEARCH fetches the WHOLE
+    The old flow asked Chroma for k = limit, i.e.   restructuring (not triggered  eligible pool (k = known
+    the semantic top-k only. Any re-ranking after   by the default limit of 50    eligible count), RERANK,
+    that could never reach a better-intent guest    with 15 guests).              THEN cuts to `limit`.
+    outside it.
+ F5 (earlier) Chroma int/float filter truncation.   0 >= 0.5 evaluated as true;   All metadata numbers are
+    Caught by the VERIFY stage, not by Chroma.      non-matching guests returned. integers (per-mille, cents).
+ F6 Known trade-off: mixed-intent campaigns.        Christmas banquet (party size Documented, not "fixed"
+                                                    + steak + fish): Lucas (fish  by tuning the benchmark.
+                                                    lover, 32) beats Grace (36).  Spearman 0.50.
+
+ Weight sweep (mean Spearman / top-1 over 10 rankable presets, `npm run eval:ranking`):
+     semantic weight 1.0 (pure vector) ... 0.64 / 8 of 10   <- before
+     semantic weight 0.7 ................. 0.78 / 9 of 10
+     semantic weight 0.5 ................. 0.87 / 9 of 10   <- chosen: big gain, semantics still matter
+     semantic weight 0.3 ................. 0.89 / 9 of 10   (marginal, risks over-fitting to rules)
+
+ Per campaign, before -> after:
+     red meat steak night 0.61 -> 0.70 | barramundi 0.95 -> 0.95 | Q1 prawn 1.00 -> 1.00
+     seafood festival     0.63 -> 0.90 | VIP hosts  0.36 -> 0.87 | banquet  0.50 -> 0.50
+     happy hour          -0.43 -> 0.87 | wine/steak 0.87 -> 0.97 | risotto  1.00 -> 1.00
+     Q2 lamb              0.95 -> 0.95
+
+ Guard rails added: ranking benchmark is a test (mean >= 0.80, no campaign negative);
+ ground truth lives in ranking-eval.ts, written independently of rerank.ts.
+
+
+--------------------------------------------------------------------------------
+CLEARER FLOW: ONE CAMPAIGN = 5 NAMED, TRACED STAGES
+(every stage appears in the API response `trace` and in one server log line)
+--------------------------------------------------------------------------------
+
+ Marketer    API(:3000)   Runner      PLAN          SEARCH          VERIFY         RERANK        DRAFT       DeepSeek
+    |            |           |          |          (Chroma :8000)      |              |             |            |
+    |-- GET /campaigns/vip-event-hosts-room-package                    |              |             |            |
+    |            |-- run --->|          |              |               |              |             |            |
+    |            |           |--------->|              |               |              |             |            |
+    |            |           |   rules = audience (preference|gate) + allergy (gate)  |             |            |
+    |            |           |   signals = preference rules + promoted dishes' food group  [F3]   |            |
+    |            |           |   eligible = in-memory selection from CSV (5), excluded (0)         |            |
+    |            |           |   trace: "1 rules; 5 eligible, 0 excluded; rank by maxPartySize"    |            |
+    |            |           |          |------------->|               |              |             |            |
+    |            |           |          |   k = eligible count (5), where = all rules   [F4]      |            |
+    |            |           |          |   (skipped when nobody is eligible -> no Chroma call)    |            |
+    |            |           |          |              |-- 5 hits ---->|              |             |            |
+    |            |           |          |              |   (distance)  |              |             |            |
+    |            |           |          |              |    re-check each hit vs CSV  [F5]        |            |
+    |            |           |          |              |    assertAllergySafe() (throws)          |            |
+    |            |           |          |              |    hits == eligible? else 503 "ingest"   |            |
+    |            |           |          |              |               |-- 5 cands -->|             |            |
+    |            |           |          |              |               |   semantic = minmax(-distance)          |
+    |            |           |          |              |               |   intent   = minmax(maxPartySize) [F1,F2]
+    |            |           |          |              |               |   score    = 0.5*sem + 0.5*intent       |
+    |            |           |          |              |               |   sort, THEN slice(limit)  [F4]         |
+    |            |           |          |              |               |   Hannah 0.953 > Olivia 0.871 > Lucas 0.625
+    |            |           |<-------------------------------------------- ranked ---|             |            |
+    |            |           |------------------------------------------------------------------>|            |
+    |            |           |   PII-free prompt (title, goal, dishes+prices, size, segment)     |            |
+    |            |           |   alt size==0 -> skipped | no key -> dry-run | key ---------------------------->|
+    |            |           |<------------------------------------------------- DraftResult ----|<-- copy ---|
+    |            |           |-- log "[campaign id] plan(1ms) | search(150ms) | verify(0ms) | rerank(0ms) | draft(0ms)"
+    |            |<- report -|   (stdout: ids, counts and timings only; no contact details)
+    |<-- 200 {campaign, rules, ranking{semanticWeight, intentSignals},
+    |         audience{recipients[score, semantic, intent, distance, reasons]},
+    |         excludedForAllergy, draft, trace[plan, search, verify, rerank, draft]}
+
+
+--------------------------------------------------------------------------------
+TUNING LOOP (how these numbers were produced; repeat after any change)
+--------------------------------------------------------------------------------
+
+ Developer          eval:ranking        Pipeline (all 5 stages)      Ground truth
+     |                    |                      |                        |
+     |-- npm run eval:ranking                    |                        |
+     |                    |-- each preset ------>|                        |
+     |                    |<-- ranked guests ----|                        |
+     |                    |-- strength of each guest on the hand-labelled attribute -->|
+     |                    |<-------------------------------------- strengths ---------|
+     |                    |   Spearman(rank position, strength); top-1 = strongest first?
+     |<-- per-campaign table + mean Spearman + top-1 hits
+     |   change ONE thing (profile text / SEMANTIC_WEIGHT / signals), re-ingest if text changed,
+     |   re-run, keep only if the mean rises and no campaign goes negative.
+================================================================================
