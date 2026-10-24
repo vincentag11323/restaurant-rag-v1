@@ -1,5 +1,8 @@
 import { StringOutputParser } from "@langchain/core/output_parsers";
+import type { BaseMessage } from "@langchain/core/messages";
+import type { BasePromptValueInterface } from "@langchain/core/prompt_values";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
+import type { RunnableLike } from "@langchain/core/runnables";
 import { ChatDeepSeek } from "@langchain/deepseek";
 import type { CampaignSpec } from "../campaign/spec.js";
 import type { AppConfig } from "../config.js";
@@ -11,14 +14,34 @@ export interface AudienceSummary {
 }
 
 export interface DraftResult {
-  /** drafted: LLM wrote copy · dry-run: no API key · skipped: nobody to send to */
-  readonly status: "drafted" | "dry-run" | "skipped";
+  /** drafted: LLM wrote copy · dry-run: no API key · skipped: nobody to send to · unavailable: LLM failed */
+  readonly status: "drafted" | "dry-run" | "skipped" | "unavailable";
   readonly prompt: string;
   readonly copy: string | null;
   readonly note: string | null;
 }
 
 const FIRST_NAME_PLACEHOLDER = "{{first_name}}";
+const MAX_REASON_LENGTH = 160;
+
+export interface ChatModelOptions {
+  readonly apiKey: string;
+  readonly model: string;
+  readonly temperature: number;
+  readonly maxRetries: number;
+  readonly timeout: number;
+}
+
+/** Builds the chat model; injectable so tests never call the real API. */
+export type ChatModelFactory = (options: ChatModelOptions) => RunnableLike<BasePromptValueInterface, BaseMessage | string>;
+
+const deepSeekModel: ChatModelFactory = (options) => new ChatDeepSeek(options);
+
+/** Short, single-line reason safe to show in the chat (no stack traces). */
+function failureReason(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.replace(/\s+/g, " ").slice(0, MAX_REASON_LENGTH);
+}
 
 // Only aggregate, PII-free campaign facts are sent to the third-party LLM.
 const PROMPT = ChatPromptTemplate.fromMessages([
@@ -61,6 +84,7 @@ export async function draftCampaignCopy(
   spec: CampaignSpec,
   audience: AudienceSummary,
   deepseek: AppConfig["deepseek"],
+  createModel: ChatModelFactory = deepSeekModel,
 ): Promise<DraftResult> {
   const prompt = await buildCampaignPrompt(spec, audience);
   if (audience.size === 0) {
@@ -70,7 +94,20 @@ export async function draftCampaignCopy(
     return { status: "dry-run", prompt, copy: null, note: "Set DEEPSEEK_API_KEY to draft copy with DeepSeek." };
   }
 
-  const model = new ChatDeepSeek({ apiKey: deepseek.apiKey, model: deepseek.model, temperature: 0.7 });
-  const copy = await PROMPT.pipe(model).pipe(new StringOutputParser()).invoke(promptVariables(spec, audience));
-  return { status: "drafted", prompt, copy, note: null };
+  const model = createModel({
+    apiKey: deepseek.apiKey,
+    model: deepseek.model,
+    temperature: 0.7,
+    maxRetries: deepseek.maxRetries,
+    timeout: deepseek.timeoutMs,
+  });
+  try {
+    const copy = await PROMPT.pipe(model).pipe(new StringOutputParser()).invoke(promptVariables(spec, audience));
+    return { status: "drafted", prompt, copy, note: null };
+  } catch (error) {
+    // Fail soft: the audience and offer are already computed and still useful without copy.
+    const attempts = deepseek.maxRetries + 1;
+    const note = `Draft unavailable: DeepSeek failed after up to ${attempts} attempts (${failureReason(error)}).`;
+    return { status: "unavailable", prompt, copy: null, note };
+  }
 }
