@@ -106,10 +106,10 @@ const STYLES = html`<style>
   .examples { max-width:1000px; margin:6px auto 0 }
 </style>`;
 
-export function renderChatPage(messages: readonly ChatMessage[], examples: readonly string[]): Html {
+export function renderChatPage(messages: readonly ChatMessage[], examples: readonly string[], banner?: string): Html {
   return html`<!doctype html><html lang="en"><head><meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" /><title>ResortOS Campaign Chat</title>${STYLES}</head>
-    <body><header><h1>ResortOS · Campaign RAG chat</h1>
+    <body><header><div><h1>ResortOS · Campaign RAG chat</h1>${banner ? html`<span class="muted">${banner}</span>` : ""}</div>
       <form method="post" action="/chat/reset"><button class="chip">New chat</button></form></header>
     <main>${
       messages.length === 0

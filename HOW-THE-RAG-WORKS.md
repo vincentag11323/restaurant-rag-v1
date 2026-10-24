@@ -216,8 +216,14 @@ Words are for *liking*; numbers are for *rules*.
 ```bash
 npm run chroma        # 1. open the magic library (keep this running)
 npm run ingest        # 2. make the guest cards and put them in the library
-npm run dev           # 3. start the robot at http://localhost:3000
+npm run dev           # 3. start the robot (the RAG API) at http://localhost:3000
+npm run frontend      # 4. optional: a separate chat window at http://localhost:3001
 ```
+
+The chat at **:3001** is a separate little app that sends your prompt to the robot on :3000
+and shows its answer. If the robot isn't running, it tells you so instead of breaking.
+(Port 5000 is taken by macOS AirPlay Receiver, so the frontend uses 3001; change it with
+`FRONTEND_PORT` in `.env`.)
 
 Then open **http://localhost:3000** in your browser and start chatting (or click one of the example
 buttons). Grown-ups who like raw JSON can still use `/api`, `/campaigns` and `POST /campaigns/ask`.
@@ -226,7 +232,7 @@ Other useful commands:
 
 | Command | What it does |
 |---|---|
-| `npm test` | Runs all 116 checks (start `npm run chroma` first for the library tests) |
+| `npm test` | Runs all the checks (start `npm run chroma` first for the library tests) |
 | `npm run eval:ranking` | Grades how well the line-up order matches real fans |
 | `npm run ingest` | Re-run whenever `invoices.csv` changes |
 

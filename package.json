@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "chroma": "chroma run --path ./chroma-data --port 8000",
     "ingest": "tsx --env-file-if-exists=.env src/scripts/ingest.ts",
-    "eval:ranking": "tsx --env-file-if-exists=.env src/scripts/eval-ranking.ts"
+    "eval:ranking": "tsx --env-file-if-exists=.env src/scripts/eval-ranking.ts",
+    "frontend": "tsx watch --env-file-if-exists=.env src/frontend/server.ts"
   },
   "repository": {
     "type": "git",

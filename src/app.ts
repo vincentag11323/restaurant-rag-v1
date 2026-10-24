@@ -1,15 +1,12 @@
-import { randomUUID } from "node:crypto";
-import { type Context, Hono } from "hono";
-import { getCookie, setCookie } from "hono/cookie";
-import { csrf } from "hono/csrf";
+import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { z } from "zod";
 import { PRESET_CAMPAIGNS, UnknownCampaignError, findPreset } from "./campaign/presets.js";
 import { AllergySafetyError } from "./campaign/safety.js";
 import { CampaignSpecSchema } from "./campaign/spec.js";
-import { type Assistant, EXAMPLE_PROMPTS } from "./chat/assistant.js";
-import { renderChatPage } from "./chat/page.js";
+import type { Assistant } from "./chat/assistant.js";
+import { PromptSchema, registerChatRoutes } from "./chat/routes.js";
 import { type ChatStore, createChatStore } from "./chat/sessions.js";
 import type { CampaignRunner } from "./rag/campaign-runner.js";
 import { IndexOutOfDateError } from "./rag/retrieve.js";
@@ -27,8 +24,6 @@ class BadRequestError extends Error {
   override readonly name = "BadRequestError";
 }
 
-const PromptSchema = z.object({ prompt: z.string().trim().min(1, "Please type a question.").max(500) });
-const SESSION_COOKIE = "resortos_chat";
 
 /** Maps known failures to status codes; unexpected errors are logged server-side and hidden from clients. */
 function toErrorResponse(error: unknown): { status: ContentfulStatusCode; message: string } {
@@ -55,15 +50,6 @@ function parsePrompt(input: unknown): string {
   return parsed.data.prompt;
 }
 
-/** Anonymous per-browser chat session (random id, httpOnly cookie). */
-function sessionId(c: Context): string {
-  const existing = getCookie(c, SESSION_COOKIE);
-  if (existing) return existing;
-  const id = randomUUID();
-  setCookie(c, SESSION_COOKIE, id, { httpOnly: true, sameSite: "Lax", path: "/" });
-  return id;
-}
-
 export interface AppDeps {
   readonly runner: CampaignRunner;
   readonly assistant: Assistant;
@@ -72,28 +58,11 @@ export interface AppDeps {
 
 export function createApp({ runner, assistant, chats = createChatStore() }: AppDeps): Hono {
   const app = new Hono();
-  app.use("/chat", csrf());
-  app.use("/chat/*", csrf());
-
-  // ---- Chat UI (server-rendered HTML) ----
-  app.get("/", (c) => c.html(renderChatPage(chats.history(sessionId(c)), EXAMPLE_PROMPTS)));
-
-  app.post("/chat", async (c) => {
-    const id = sessionId(c);
-    const body = await c.req.parseBody();
-    try {
-      const prompt = parsePrompt({ prompt: body.prompt });
-      chats.append(id, { role: "user", text: prompt });
-      chats.append(id, { role: "assistant", reply: await assistant.reply(prompt) });
-    } catch (error) {
-      chats.append(id, { role: "error", text: toErrorResponse(error).message });
-    }
-    return c.redirect("/#latest", 303);
-  });
-
-  app.post("/chat/reset", (c) => {
-    chats.reset(sessionId(c));
-    return c.redirect("/", 303);
+  // ---- Chat UI (server-rendered HTML), answered in-process by the assistant ----
+  registerChatRoutes(app, {
+    reply: (prompt) => assistant.reply(prompt),
+    chats,
+    describeError: (error) => toErrorResponse(error).message,
   });
 
   // ---- JSON API ----
