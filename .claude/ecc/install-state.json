@@ -1,6 +1,6 @@
 {
   "schemaVersion": "ecc.install.v1",
-  "installedAt": "2026-10-24T05:05:30.105Z",
+  "installedAt": "2026-10-24T05:11:44.981Z",
   "target": {
     "id": "claude-project",
     "target": "claude-project",
@@ -17,13 +17,14 @@
       "typescript"
     ],
     "legacyMode": true,
-    "hookConsent": "declined"
+    "hookConsent": "enabled"
   },
   "resolution": {
     "selectedModules": [
       "rules-core",
       "agents-core",
       "commands-core",
+      "hooks-runtime",
       "platform-configs",
       "framework-language",
       "skill-unified-memory",
@@ -6702,6 +6703,2957 @@
       "ownership": "managed",
       "scaffoldOnly": false,
       "contentSha256": "7094ab94802d7e839dc33c6ea230020327260518b1b1ce62b42d56d051c1d7c5"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/manifests/install-assets/claude-project-scripts-package.json",
+      "sourceRelativePath": "manifests/install-assets/claude-project-scripts-package.json",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/package.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/manifests/install-assets/claude-project-scripts-package.json",
+      "sourceRelativePath": "manifests/install-assets/claude-project-scripts-package.json",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/package.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a"
+    },
+    {
+      "kind": "update-claude-settings",
+      "moduleId": "hooks-runtime",
+      "sourceRelativePath": "hooks/hooks.json",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/settings.json",
+      "strategy": "merge-hook-ids",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/hooks/hooks.json",
+      "managedHooks": {
+        "PreToolUse": [
+          {
+            "matcher": "Bash",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/pre-bash-dispatcher.js"
+              }
+            ],
+            "id": "pre:bash:dispatcher",
+            "description": "Consolidated Bash preflight dispatcher for quality, tmux, push, and GateGuard checks"
+          },
+          {
+            "matcher": "PowerShell",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:powershell:gateguard-fact-force scripts/hooks/gateguard-fact-force.js standard,strict",
+                "timeout": 5
+              }
+            ],
+            "id": "pre:powershell:gateguard-fact-force",
+            "description": "PowerShell fact-forcing gate: inspect destructive commands without running unrelated Bash-only preflight hooks"
+          },
+          {
+            "matcher": "Write",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:write:doc-file-warning scripts/hooks/doc-file-warning.js standard,strict"
+              }
+            ],
+            "id": "pre:write:doc-file-warning",
+            "description": "Doc file warning: warn about non-standard documentation files (exit code 0; warns only)"
+          },
+          {
+            "matcher": "Edit|Write",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:edit-write:suggest-compact scripts/hooks/suggest-compact.js standard,strict"
+              }
+            ],
+            "id": "pre:edit-write:suggest-compact",
+            "description": "Suggest manual compaction at logical intervals"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:observe scripts/hooks/observe-runner.js standard,strict",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "pre:observe:continuous-learning",
+            "description": "Capture tool use observations for continuous learning"
+          },
+          {
+            "matcher": "Bash|PowerShell|Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:governance-capture scripts/hooks/governance-capture.js standard,strict",
+                "timeout": 10
+              }
+            ],
+            "id": "pre:governance-capture",
+            "description": "Capture governance events (secrets, policy violations, approval requests). Enable with ECC_GOVERNANCE_CAPTURE=1"
+          },
+          {
+            "matcher": "Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:config-protection scripts/hooks/config-protection.js standard,strict",
+                "timeout": 5
+              }
+            ],
+            "id": "pre:config-protection",
+            "description": "Block modifications to linter/formatter config files. Steers agent to fix code instead of weakening configs."
+          },
+          {
+            "matcher": "^mcp__",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:mcp-health-check scripts/hooks/mcp-health-check.js standard,strict"
+              }
+            ],
+            "id": "pre:mcp-health-check",
+            "description": "Check MCP server health before MCP tool execution and block unhealthy MCP calls"
+          },
+          {
+            "matcher": "Edit|Write|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:edit-write:gateguard-fact-force scripts/hooks/gateguard-fact-force.js standard,strict",
+                "timeout": 5
+              }
+            ],
+            "id": "pre:edit-write:gateguard-fact-force",
+            "description": "Fact-forcing gate: block first Edit/Write/MultiEdit per file and demand investigation (importers, data schemas, user instruction) before allowing"
+          }
+        ],
+        "PreCompact": [
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js pre:compact scripts/hooks/pre-compact.js standard,strict"
+              }
+            ],
+            "id": "pre:compact",
+            "description": "Save state before context compaction"
+          }
+        ],
+        "SessionStart": [
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/session-start-bootstrap.js"
+              }
+            ],
+            "id": "session:start",
+            "description": "Load previous context and detect package manager on new session"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js session-start:plan-canvas-sessions scripts/hooks/plan-canvas-sessions.js standard,strict"
+              }
+            ],
+            "id": "session-start:plan-canvas-sessions",
+            "description": "Surface open Plan Canvas review sessions so a fresh session can resume the loop"
+          }
+        ],
+        "PostToolUse": [
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/posttooluse-dispatcher.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s).cli()\" sync",
+                "timeout": 30
+              }
+            ],
+            "id": "post:dispatcher:sync",
+            "description": "Run synchronous PostToolUse hooks in one process while preserving per-hook controls"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/posttooluse-dispatcher.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s).cli()\" async",
+                "async": true,
+                "timeout": 45
+              }
+            ],
+            "id": "post:dispatcher:async",
+            "description": "Run background PostToolUse hooks in one process while preserving per-hook controls"
+          }
+        ],
+        "PostToolUseFailure": [
+          {
+            "matcher": "^mcp__",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js post:mcp-health-check scripts/hooks/mcp-health-check.js standard,strict"
+              }
+            ],
+            "id": "post:mcp-health-check",
+            "description": "Track failed MCP tool calls, mark unhealthy servers, and attempt reconnect"
+          },
+          {
+            "matcher": "Skill",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const s=p.join(r,'scripts/hooks/plugin-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=r;process.argv.splice(1,0,s);require(s)\" node scripts/hooks/run-with-flags.js post:skill:track scripts/hooks/skill-run-tracker.js standard,strict"
+              }
+            ],
+            "id": "post:skill:track",
+            "description": "Record hard Skill tool failures for skill-health telemetry"
+          }
+        ],
+        "Stop": [
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:plan-canvas-pending scripts/hooks/plan-canvas-pending.js minimal,standard,strict 30000"
+              }
+            ],
+            "id": "stop:plan-canvas-pending",
+            "description": "Deliver undelivered Plan Canvas browser feedback before the agent stops"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:format-typecheck scripts/hooks/stop-format-typecheck.js standard,strict 300000",
+                "timeout": 300
+              }
+            ],
+            "id": "stop:format-typecheck",
+            "description": "Batch format (Biome/Prettier) and typecheck (tsc) all JS/TS files edited this response — runs once at Stop instead of after every Edit"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:check-console-log scripts/hooks/check-console-log.js standard,strict 30000"
+              }
+            ],
+            "id": "stop:check-console-log",
+            "description": "Check for console.log in modified files after each response"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:session-end scripts/hooks/session-end.js minimal,standard,strict 30000",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "stop:session-end",
+            "description": "Persist session state after each response (Stop carries transcript_path)"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:evaluate-session scripts/hooks/evaluate-session.js minimal,standard,strict 30000",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "stop:evaluate-session",
+            "description": "Evaluate session for extractable patterns"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:cost-tracker scripts/hooks/cost-tracker.js minimal,standard,strict 30000",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "stop:cost-tracker",
+            "description": "Track token and cost metrics per session"
+          },
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" stop:desktop-notify scripts/hooks/desktop-notify.js standard,strict 30000",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "stop:desktop-notify",
+            "description": "Send desktop notification (macOS/WSL) with task summary when Claude responds"
+          }
+        ],
+        "SessionEnd": [
+          {
+            "matcher": ".*",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "node -e \"const p=require('path');const r=(function(){var p=require('path'),f=require('fs'),o=require('os');var e=Buffer.from('L1VzZXJzL2d2aW5jZW50YS9EZXNrdG9wL3Jlc3RhdXJhbnQtcmFnLy5jbGF1ZGU=','base64').toString('utf8');if(e&&e.trim())return e.trim();var d=p.join(o.homedir(),'.claude');function L(x){try{return require(p.join(x,'scripts','lib','resolve-ecc-root')).resolveEccRoot()}catch(_){return null}}var r=L(d);if(r)return r;var s=['ecc','ecc@ecc','marketplaces/ecc','everything-claude-code','everything-claude-code@everything-claude-code','marketplaces/everything-claude-code'];for(var i=0;i<s.length;i++){r=L(p.join(d,'plugins',s[i]));if(r)return r}try{var g=['ecc','everything-claude-code'];for(var j=0;j<g.length;j++){var c=p.join(d,'plugins','cache',g[j]);var O=f.readdirSync(c);for(var k=0;k<O.length;k++){var q=p.join(c,O[k]);var V=f.readdirSync(q);for(var m=0;m<V.length;m++){r=L(p.join(q,V[m]));if(r)return r}}}}catch(_){}return d})();const n=process.platform==='win32'&&r.charAt(0)==='/'&&/[a-zA-Z]/.test(r.charAt(1))&&(r.length===2||r.charAt(2)==='/')?r.charAt(1).toUpperCase()+':/'+r.slice(3):r;const s=p.join(n,'scripts/hooks/lifecycle-hook-bootstrap.js');process.env.CLAUDE_PLUGIN_ROOT=n;if(require('fs').existsSync(s)){process.argv.splice(1,0,s);require(s).cli()}else{process.stderr.write('[Hook] lifecycle bootstrap unavailable; skipping hook'+String.fromCharCode(10))}\" session:end:marker scripts/hooks/session-end-marker.js minimal,standard,strict 30000",
+                "async": true,
+                "timeout": 10
+              }
+            ],
+            "id": "session:end:marker",
+            "description": "Session end lifecycle marker (non-blocking)"
+          }
+        ]
+      },
+      "contentSha256": "3e369e6797c3da320ef24e949f86183413c1268ce7b4fc935e724db6db12bdd2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/hooks/codex-hooks.json",
+      "sourceRelativePath": "hooks/codex-hooks.json",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/hooks/codex-hooks.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "57edf21eb83d9c8144cfdc19f621700a854b6fd4abc4c368ddaeb5c74488b43c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/hooks/memory-persistence/README.md",
+      "sourceRelativePath": "hooks/memory-persistence/README.md",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/hooks/memory-persistence/README.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "020dc83bf19a4d0a887ee0683c087ebf14fc77f01d178e271277d6912a31bdf5"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/hooks/memory-persistence/hooks.json",
+      "sourceRelativePath": "hooks/memory-persistence/hooks.json",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/hooks/memory-persistence/hooks.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f5361a21a63fc9258920c4ab9fe9d57adcb52e9d6bdd22e7a94eb9349be86c7a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/hooks/README.md",
+      "sourceRelativePath": "hooks/README.md",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/hooks/README.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "12342f0b13b1044f47ed824470c90833ad5a478a13dd93d2cc335189a85bef4c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/auto-tmux-dev.js",
+      "sourceRelativePath": "scripts/hooks/auto-tmux-dev.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/auto-tmux-dev.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b9bba06d2b73495601a04a69ba1b907271220d967794eed613b0b3924a91ffd9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/bash-hook-dispatcher.js",
+      "sourceRelativePath": "scripts/hooks/bash-hook-dispatcher.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/bash-hook-dispatcher.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b6e4163536d8092b63cfca205372d699f38550d6dd0fe2e74abde2f029f6ecbe"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/block-no-verify.js",
+      "sourceRelativePath": "scripts/hooks/block-no-verify.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/block-no-verify.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c4638e5ccd28b75f7a8ba3c9eab8351c8b11a914e59612edd635a50d6e8c1c9e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/check-console-log.js",
+      "sourceRelativePath": "scripts/hooks/check-console-log.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/check-console-log.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "382623502ffe25ffc2cc7fe810bc79a181600a46c43595fe8de0da148998b7b1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/check-hook-enabled.js",
+      "sourceRelativePath": "scripts/hooks/check-hook-enabled.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/check-hook-enabled.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1a16c203727a1471c700c0adc44c67fb7c29e78db24b61a2a46e469fb41d5fba"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/config-protection.js",
+      "sourceRelativePath": "scripts/hooks/config-protection.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/config-protection.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b2f4accbba21e66ef440b12dade0aaa9f0f631f57453ef4b1d87f0b56e1b1f7b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/cost-tracker.js",
+      "sourceRelativePath": "scripts/hooks/cost-tracker.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/cost-tracker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f9e811b4657dc250c2fd448cd21838aea1155a274b6803afafc87156009a720e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/cursor-session-env.js",
+      "sourceRelativePath": "scripts/hooks/cursor-session-env.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/cursor-session-env.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "7c64241f6be7abeb6e204eec2ace6ca9a519454a1f1d58d4a2b162cd7d6752de"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/design-quality-check.js",
+      "sourceRelativePath": "scripts/hooks/design-quality-check.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/design-quality-check.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ffac3f7c2b226e68c808b7e23d515727e0db32e166ed14d25674dfa9a407be33"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/desktop-notify.js",
+      "sourceRelativePath": "scripts/hooks/desktop-notify.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/desktop-notify.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ee5c5c366958848683c17527d1572f10cf86f8ec52a9ba645202db8652d9c046"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/doc-file-warning.js",
+      "sourceRelativePath": "scripts/hooks/doc-file-warning.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/doc-file-warning.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a91eea1e20c0affaf0460dd128afad46af5a0d71dc7f52d7e4b875c5607225d1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/ecc-context-monitor.js",
+      "sourceRelativePath": "scripts/hooks/ecc-context-monitor.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/ecc-context-monitor.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6c9399ca4e1bd0162cf824fd4c94f5c05e580bb3146e6e365f38b6f7bd14e5ec"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/ecc-metrics-bridge.js",
+      "sourceRelativePath": "scripts/hooks/ecc-metrics-bridge.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/ecc-metrics-bridge.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c78b8ba985fefbca95db970da8da50465f634895e0ea688b45d688f70d4abfdd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/ecc-statusline.js",
+      "sourceRelativePath": "scripts/hooks/ecc-statusline.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/ecc-statusline.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9566bb42c6a6d0c89250a13f1d121c9ffd75a4626ae5988f69f40233fddd7c55"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/evaluate-session.js",
+      "sourceRelativePath": "scripts/hooks/evaluate-session.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/evaluate-session.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d3bf18be2af61791b25bcb8fb7cc44b911bf9d59579fbcfc0c6af16579574db6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/gateguard-fact-force.js",
+      "sourceRelativePath": "scripts/hooks/gateguard-fact-force.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/gateguard-fact-force.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9401ca31742946d3af10eacf49c122c46862491573c89cb3d5330d888aea06d8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/gateguard-heredoc.js",
+      "sourceRelativePath": "scripts/hooks/gateguard-heredoc.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/gateguard-heredoc.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1482549cd44a02251d1b468afe79fc931fe1113fbcf7d08f3f7e3fc98d89171e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/governance-capture.js",
+      "sourceRelativePath": "scripts/hooks/governance-capture.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/governance-capture.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8001160e9bc469dd57aa000ff483962c00841701973e9d1cf122105b88a839d8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/hook-input.js",
+      "sourceRelativePath": "scripts/hooks/hook-input.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/hook-input.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "edae519f794befa4cf1dcbfb3c985d0db6f589342b7036ffb7ace61a9c3868b0"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/insaits-security-monitor.py",
+      "sourceRelativePath": "scripts/hooks/insaits-security-monitor.py",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/insaits-security-monitor.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "44e701c596b4fb006ab46c4f82984d8616da47bebd4ae5fb51b5263e5955ce59"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/insaits-security-wrapper.js",
+      "sourceRelativePath": "scripts/hooks/insaits-security-wrapper.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/insaits-security-wrapper.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2090ee2cae5e6b35cf7c011b69cc99ef98f4f4a8eaf3c956493238729a0968f8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/lib/shell-scan.js",
+      "sourceRelativePath": "scripts/hooks/lib/shell-scan.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/lib/shell-scan.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "57783e1a29712524b14f603c2c8cf3c6e3adf85e0454ec39053ab15d0aaa2448"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/lifecycle-hook-bootstrap.js",
+      "sourceRelativePath": "scripts/hooks/lifecycle-hook-bootstrap.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/lifecycle-hook-bootstrap.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "111d993be01f5ca3145f7693862695a87a23994810f972e2bc914dfaf102d7a1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/mcp-health-check.js",
+      "sourceRelativePath": "scripts/hooks/mcp-health-check.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/mcp-health-check.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f553b83f754a8b024e53303200ae85aaec7abacc3f6ef703075081799288a459"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/observe-runner.js",
+      "sourceRelativePath": "scripts/hooks/observe-runner.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/observe-runner.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ac9f619f326a5465f04ddc4cdade192132b6a47d011067af00b7a5d17f5efed"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/plan-canvas-pending.js",
+      "sourceRelativePath": "scripts/hooks/plan-canvas-pending.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/plan-canvas-pending.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "18feb739884b028791b432b8185888451fa27fe23f94adc96747c9b9c773f018"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/plan-canvas-sessions.js",
+      "sourceRelativePath": "scripts/hooks/plan-canvas-sessions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/plan-canvas-sessions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f894fdc9a38ba2c4b92035e026d58775dcec4679ea5035e7df0fe1d2b359445b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/plugin-hook-bootstrap.js",
+      "sourceRelativePath": "scripts/hooks/plugin-hook-bootstrap.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/plugin-hook-bootstrap.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0e27afc42c121e467bbd3c102d223acae98e7e6255710b75aeeef2add212d422"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-bash-build-complete.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-build-complete.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-bash-build-complete.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f47e296e4536ba71572c27b6611919d1b350bc1f2d293b1c1ddb2c7662e506b4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-bash-command-log.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-command-log.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-bash-command-log.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "286bc8dc082ab9e23e228a744788b5bfce91fa3cb842dd2db3dfb96bd2eb464a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-bash-dispatcher.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-dispatcher.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-bash-dispatcher.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "bbcac5d8dbc983c0174455c624a98d66d9c54b13474409f9c0154d6d3567febe"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-bash-pr-created.js",
+      "sourceRelativePath": "scripts/hooks/post-bash-pr-created.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-bash-pr-created.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "360a4d5428801786fda5c03ebfa065033aa6382448d0035bd7c44904ee686e6a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-edit-accumulator.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-accumulator.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-edit-accumulator.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b69e6128795c7d9a5db9af45e4f709a6192d427ac998962c3564926aaa9d35a4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-edit-console-warn.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-console-warn.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-edit-console-warn.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "de72d89dc4cedb4ba0ba799edacad79b69165ec9aac5be6d65950cd0cd3b5c2d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-edit-format.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-format.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-edit-format.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "5b4c6fa4469697c40b2506a1a50838e53de3cb47e97eaa57929c2124245e4606"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/post-edit-typecheck.js",
+      "sourceRelativePath": "scripts/hooks/post-edit-typecheck.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/post-edit-typecheck.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "bc12d455ce3d7f316404d23aa9e070098a636a8f47cee2fcd702208ffff18385"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/posttooluse-dispatcher.js",
+      "sourceRelativePath": "scripts/hooks/posttooluse-dispatcher.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/posttooluse-dispatcher.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4724276f27684b45dd05282fd8b1e2b7e1dcf76eb72952b8b491bc3da7c4f846"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-bash-commit-quality.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-commit-quality.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-bash-commit-quality.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9fd28eb4123ac58253402658a2efc2d96c3625d4eef77980b17508a50395c012"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-bash-dev-server-block.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-dev-server-block.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-bash-dev-server-block.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "02a972a3d07d0fd809c8a773329c90981466e06ea289daaf2115a51f2a9a6aa1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-bash-dispatcher.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-dispatcher.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-bash-dispatcher.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "5ddf5ec18c25272b5874f5fa5a19243ceb6fdf978b3c81fa04e337c59ed25716"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-bash-git-push-reminder.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-git-push-reminder.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-bash-git-push-reminder.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "171a7b03e588059aabab78cf64e10fa8170af112b1ceb6fa3d749df503c7fa72"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-bash-tmux-reminder.js",
+      "sourceRelativePath": "scripts/hooks/pre-bash-tmux-reminder.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-bash-tmux-reminder.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "df1d631016eb98d0fd53787572d76ecc65be180f91e38f05adb76a964e824a4c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-compact.js",
+      "sourceRelativePath": "scripts/hooks/pre-compact.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-compact.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "98eee132c60edc683066233b227e65f0a4e752683efe97384509577bbbfb8bd6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pre-write-doc-warn.js",
+      "sourceRelativePath": "scripts/hooks/pre-write-doc-warn.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pre-write-doc-warn.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "97c9f33bd4e7dac13d6ed27b551f25fa275a30448d32e626000c34c9c4329661"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/pretooluse-visible-output.js",
+      "sourceRelativePath": "scripts/hooks/pretooluse-visible-output.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/pretooluse-visible-output.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0508766aad2ff7540a717bacacc6e23e2452c65d75d0485039ec1a3eae7e6018"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/quality-gate.js",
+      "sourceRelativePath": "scripts/hooks/quality-gate.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/quality-gate.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "66874c9ff75bf74483b17a699b217865ae6a47cfe1462fd2b1f037511aecb582"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/run-with-flags-shell.sh",
+      "sourceRelativePath": "scripts/hooks/run-with-flags-shell.sh",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/run-with-flags-shell.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a928085325e32f821a2a89be85bb26cab40e67c24c9869782d85e0b22b50173b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/run-with-flags.js",
+      "sourceRelativePath": "scripts/hooks/run-with-flags.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/run-with-flags.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a5b3c3f4ed27f1d9d9c607d6819aab9985ad446239ea7d2825d4b040d2d8d87e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/session-activity-tracker.js",
+      "sourceRelativePath": "scripts/hooks/session-activity-tracker.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/session-activity-tracker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "51c2110a507c7f545f9040cb0bb5cf23c935b1f05018aea15bf4685bfb17a53a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/session-end-marker.js",
+      "sourceRelativePath": "scripts/hooks/session-end-marker.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/session-end-marker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "dd24fbec816a9dc738e45c5b126f3823365410c3d0e0fde52ea8ee8e1384a234"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/session-end.js",
+      "sourceRelativePath": "scripts/hooks/session-end.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/session-end.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "dad58b43af2ea3ed46ec802334d65c5cf327998b6ce818b5a3e6c482088e2730"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/session-start-bootstrap.js",
+      "sourceRelativePath": "scripts/hooks/session-start-bootstrap.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/session-start-bootstrap.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e1f2495e0846fdb8378b0d794e39134d52c01f8242c445faf0265227dfcddd50"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/session-start.js",
+      "sourceRelativePath": "scripts/hooks/session-start.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/session-start.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "7e26a5f0812a3717d053367d9b4db2f70e9d40434b7a05c849051266e8c1e75c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/skill-run-tracker.js",
+      "sourceRelativePath": "scripts/hooks/skill-run-tracker.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/skill-run-tracker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1dbb93800818af03798c4775f1fa4997d6c68b603b4b0837df0a38b4e54dfe32"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/stop-format-typecheck.js",
+      "sourceRelativePath": "scripts/hooks/stop-format-typecheck.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/stop-format-typecheck.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a02d73b611527ba5816781893ea347b646fa7ddce7bcb50820d8c9079c798f0d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/hooks/suggest-compact.js",
+      "sourceRelativePath": "scripts/hooks/suggest-compact.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/hooks/suggest-compact.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e031a96b7d05b689a457eb4c2c02dd8e1171cd5e68633f30b60a3f0f6ce4471a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-compress.js",
+      "sourceRelativePath": "scripts/lib/agent-compress.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-compress.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "566facf7e79cbfab9be863b5a5370822eda6430a16d22d81d264a422296f6d08"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-data-home.js",
+      "sourceRelativePath": "scripts/lib/agent-data-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-data-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0a39212f81838cd9756ade0048c296a6f79acf6dc8416ded6b15cd8c5be07ae8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-proximity/distance.js",
+      "sourceRelativePath": "scripts/lib/agent-proximity/distance.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-proximity/distance.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ad0a5d45a69afcb5af7057bf287d00de1a1b7d435c5c31d6796dd93f4eac03d7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-proximity/graph.js",
+      "sourceRelativePath": "scripts/lib/agent-proximity/graph.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-proximity/graph.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c1d3522ddd2c0154f47e347957f9ec71bd10c3e6ded39c427444f5afc8935aa2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-proximity/index.js",
+      "sourceRelativePath": "scripts/lib/agent-proximity/index.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-proximity/index.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "cbc0a5565ba366eb2577ef69a3a07b138026d7fa62fcb446e19c2d02c11de058"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-proximity/projection.js",
+      "sourceRelativePath": "scripts/lib/agent-proximity/projection.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-proximity/projection.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f468d92168324ad8357b77e9cea70a73e774541b5910b7d4c2ac6d2d35c9abe6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/agent-tools.js",
+      "sourceRelativePath": "scripts/lib/agent-tools.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/agent-tools.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a6294088a8b539f3529db6253170734983a4b8e7247adfd176b2066a39249b2e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/atomic-write.js",
+      "sourceRelativePath": "scripts/lib/atomic-write.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/atomic-write.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "06091a88ce114082b2801a9ad621c8905157a874748bfe7a131665a1c7fa0d7b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/claude-commit-attribution.js",
+      "sourceRelativePath": "scripts/lib/claude-commit-attribution.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/claude-commit-attribution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ad2d300e52a1d13aebcfb2ccc4339c3a8fa1aba86934ab47ff0a9b384b107a3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/claude-dry-run-sandbox.js",
+      "sourceRelativePath": "scripts/lib/claude-dry-run-sandbox.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/claude-dry-run-sandbox.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "67ef6fd8c5d17c1e9e9e7a8cea3e069c787eef7bdab71d7e6f70b8319a343310"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/claude-plugin-setup.js",
+      "sourceRelativePath": "scripts/lib/claude-plugin-setup.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/claude-plugin-setup.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "694ab90a7398a5f7832a4d875e34a2071a0ff1096c5c707b5390bfb843b2cd2b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/claude-scope-migration.js",
+      "sourceRelativePath": "scripts/lib/claude-scope-migration.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/claude-scope-migration.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "84da8bf9f77501ff4b02b40013fbd24db729ecd4bd2835c83db4a36d107e9144"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/codex-legacy-sync.js",
+      "sourceRelativePath": "scripts/lib/codex-legacy-sync.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/codex-legacy-sync.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "48122e73cc260f420d913930300a2ee0660898c1462ae6eb35a248017bd29cde"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/codex-plugin-setup.js",
+      "sourceRelativePath": "scripts/lib/codex-plugin-setup.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/codex-plugin-setup.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3c605cf5a1d21a9aa5b0d98701f6c6b1a399fa29f7c01fb6d9240aa507f17065"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/compute-sponsor.js",
+      "sourceRelativePath": "scripts/lib/compute-sponsor.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/compute-sponsor.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "556d13d5f7a34aae3260592e6d8be6a41114b1f88a04762eb315045fadf04947"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-carriers.js",
+      "sourceRelativePath": "scripts/lib/context-carriers.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-carriers.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6c11ba5c3366cad11b9c19fa8c8cac0402b10b2d0bc32c3fea2c2fd6766de31e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-pack-registry.js",
+      "sourceRelativePath": "scripts/lib/context-pack-registry.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-pack-registry.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "06e90d104f6240ed94317f26d6d147ae09504596d2121eb54d21034877e8e976"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-commands.js",
+      "sourceRelativePath": "scripts/lib/context-profile-commands.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-commands.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "bab8bb04169dd450f53474ee270516aefed42b52246691c851fb31438f3802a4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-interactive.js",
+      "sourceRelativePath": "scripts/lib/context-profile-interactive.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-interactive.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6e1540e2e0b8589539161170b15007a9079f3aaead461a2e733639135b44e900"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-launch.js",
+      "sourceRelativePath": "scripts/lib/context-profile-launch.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-launch.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a040c08594ec110888688e0f81e5cb949b6dec00d640dfebf98b3b7aabd5c6f3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-native-discovery.js",
+      "sourceRelativePath": "scripts/lib/context-profile-native-discovery.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-native-discovery.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d5a190ad33a1b4ed0f7799d276cb75f7d3132d5f0ad7cdd928c4b14c765c42ad"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-native-executable.js",
+      "sourceRelativePath": "scripts/lib/context-profile-native-executable.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-native-executable.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f8d9f1a7c924e44759661dd0c7dfd2cb9fe0448cf25e7aefcd264e315d1b68df"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-native.js",
+      "sourceRelativePath": "scripts/lib/context-profile-native.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-native.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a9f31c2d961b39d80a5e252be8e1cff3861d6b037afe93d5dc24d96c74f66530"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-proposal.js",
+      "sourceRelativePath": "scripts/lib/context-profile-proposal.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-proposal.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ed71d5841c4377a286ef5133563de66c56e60ffa04be049a78754f2eea6a8e30"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-store-fs.js",
+      "sourceRelativePath": "scripts/lib/context-profile-store-fs.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-store-fs.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "fd8a08f73e1ec07635201e6f213c960eddd3233c908248fceab321470cd0387e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-store.js",
+      "sourceRelativePath": "scripts/lib/context-profile-store.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-store.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1ddb315744a7ac559e18f195b0aad3465b33a51c19148dc7cbe5d9c69d5370d3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profile-support.js",
+      "sourceRelativePath": "scripts/lib/context-profile-support.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profile-support.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "470d8a6f730205ce6b933a57c55f2796566d8d4a657a2af0b4cfe9a11adcef07"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-profiles.js",
+      "sourceRelativePath": "scripts/lib/context-profiles.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-profiles.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "acd949a17c1e6dc45e9fad7be60ed39aedb6877f60770607d2bfb11236985eda"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-retrieval.js",
+      "sourceRelativePath": "scripts/lib/context-retrieval.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-retrieval.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "00bd279efea22d88b5e0ebb1e970e8f1e3f356791a634567a3025355cf238920"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/context-selection.js",
+      "sourceRelativePath": "scripts/lib/context-selection.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/context-selection.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4a5cdd47e7ac642db3b556abd58b2acf36309091f659e1e3d835c4945b8b33b2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/actions.js",
+      "sourceRelativePath": "scripts/lib/control-pane/actions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/actions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1ad71814702e9bcfeb87c49e61fd30173b628d61f1a852506c1ec295772f6509"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/control-plane-view-ui.js",
+      "sourceRelativePath": "scripts/lib/control-pane/control-plane-view-ui.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/control-plane-view-ui.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2c2a07631930713a55b18c6e24f92eec22b020e12253f0e2464dea1d19340374"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/control-plane-view.js",
+      "sourceRelativePath": "scripts/lib/control-pane/control-plane-view.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/control-plane-view.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d43b6b19924b0d8e51384a91fc99008d9e759ea237ebb2e7dec4f653e97f1ce5"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/message-sink.js",
+      "sourceRelativePath": "scripts/lib/control-pane/message-sink.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/message-sink.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "54b5fae76d5456f81292013c0da1756b41cf8a9c09d248717b1a988e4b593bf2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/proximity-viz.js",
+      "sourceRelativePath": "scripts/lib/control-pane/proximity-viz.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/proximity-viz.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "457b763d15db626af5cbae795a5369b161dc992fe0b9e10fb39519b780de70ab"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/proximity.js",
+      "sourceRelativePath": "scripts/lib/control-pane/proximity.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/proximity.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d26b12a896d361e27411910bb40e423cb1e84fc6b3b8ba3227f00b6d84ae9b4f"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/server.js",
+      "sourceRelativePath": "scripts/lib/control-pane/server.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/server.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8b743a1b80d9adbeb273c4ea67b5823a432d7c3855d648a9ba641c4dcb113ec8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/state.js",
+      "sourceRelativePath": "scripts/lib/control-pane/state.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/state.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ecf96121ebf4da473f9f24010c29d4daaecb926bd597605fdec68814a3bc61a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/ui.js",
+      "sourceRelativePath": "scripts/lib/control-pane/ui.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/ui.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "91a71f073e0358678d8e5357b28b22fca396ee996ae8152b5410c58f06c1e5ed"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/control-pane/work-item-mutations.js",
+      "sourceRelativePath": "scripts/lib/control-pane/work-item-mutations.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/control-pane/work-item-mutations.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e9b46ebcfdeef9e9b831a2719dc96a80bffb7cfb9bc60a70ffa6f43ef524f116"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/coordination-inventory.js",
+      "sourceRelativePath": "scripts/lib/coordination-inventory.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/coordination-inventory.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8074091e0a239794929e44dfe824ccdcbb4ed4e88e64f7b2e855af8d3c527151"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/cursor-agent-names.js",
+      "sourceRelativePath": "scripts/lib/cursor-agent-names.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/cursor-agent-names.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c9d9eeb15ba9088fb7c38e37a75b882cb9f5f96fc34e871a15903b679bd951f6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/ecc_dashboard_runtime.py",
+      "sourceRelativePath": "scripts/lib/ecc_dashboard_runtime.py",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/ecc_dashboard_runtime.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ef7696bec0c434af2eb8b72aa9b511eb9000533ec35c9083bda83f742dd46dd0"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/canonical.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/canonical.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/canonical.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a1dfa91850f4eeeb272c27ce9d20673403d8af25f218b192e649f592936c6067"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/capsule.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/capsule.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/capsule.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "fd0bbbde8f383226fbcb093210e0f16594acd9f6ea0ae209e47a37cc39834b0c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/effect-fence.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/effect-fence.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/effect-fence.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "cb8ae0385cbb11c2b8964189be9114a24b23747239f044d72cbe81198ba49ac6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/envelope.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/envelope.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/envelope.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ea97d62ef02d199ed3deb79cfac97d59379d7c2e4da82c5c870fbf043609ebb9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/gate-child.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/gate-child.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/gate-child.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "cb8ae0385cbb11c2b8964189be9114a24b23747239f044d72cbe81198ba49ac6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/gate.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/gate.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/gate.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "76d6613aa7aacb9863c61859d20e554826c6f08e71c10221f0b6fea4d04e3c4f"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/index.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/index.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/index.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "27d70a9b417930092089ba1fd0cafc5fb1e2eb2abcd648e95ffc04dfc6648b0d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/receipt.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/receipt.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/receipt.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "eacacccf8a6d06f38e83c8cee1bb3a6c608e9125115a989fd7f8a7f7e371d5e7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/replay.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/replay.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/replay.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "7b691b90f64d96c4121d5b4aa6650f892fd581af8afddb4e169c8dc63de47aa9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/eval-harness/retrospective.js",
+      "sourceRelativePath": "scripts/lib/eval-harness/retrospective.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/eval-harness/retrospective.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2008817d2f3d48e6d02932aaf86a56411cfff2ce4ec875c093855de389caa9f4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/feedback-links.js",
+      "sourceRelativePath": "scripts/lib/feedback-links.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/feedback-links.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "342ee97ae3a9132005ca5d4446be98f8064486656b26550596dc4d34fc40754c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination.js",
+      "sourceRelativePath": "scripts/lib/github-coordination.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "94becfa9ae0ba6d6b50745bd953ad498aaf38d775592821e96d71a22a3648d92"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/actions.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/actions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/actions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2101b9c917e8a1b30e5f35000ae781461162e4f4fe856be329ff996dc779948d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/gh-api.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/gh-api.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/gh-api.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "763b21a29e57e2ba04be454bce3b1c83a4ee46e57961cc9075aeff9f5ef1dccd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/parsing.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/parsing.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/parsing.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "97be3a2469d2b4b300e87924576b1d23bb02ca6b32a9f02ea99a5c107feabf18"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/policy.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/policy.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/policy.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d4665d76163973a2abaed7c9842f53f55e1af71a2d8783770371d8be679f8e59"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/state.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/state.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/state.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3f742052ffbd3d6c971dd26257378b09baf8cd48f6b133226a4c73e49f3e5b50"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-coordination/store.js",
+      "sourceRelativePath": "scripts/lib/github-coordination/store.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-coordination/store.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6bd7347635e2d72f68efcb9f6bbdb19d6497d3d2f03acfbeaff2d150caa2476d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-discussions.js",
+      "sourceRelativePath": "scripts/lib/github-discussions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-discussions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "fc199932cb8d9ed9f40b96040f335f25219e2eb146a5100821df9ba7abebe513"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/github-origin.js",
+      "sourceRelativePath": "scripts/lib/github-origin.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/github-origin.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1b5d8d2406fe2c009f057877684f28d00955861630d2f5b64771f354edb497df"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/harness-adapter-compliance.js",
+      "sourceRelativePath": "scripts/lib/harness-adapter-compliance.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/harness-adapter-compliance.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "878f55ec0ab76070fe3010b6d33dc76d98131ec6f34247b89013f69ba8fa2b76"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/harness-capabilities.js",
+      "sourceRelativePath": "scripts/lib/harness-capabilities.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/harness-capabilities.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3e9f30607f40b9d8089ed0bf4b28879620b35703ddc78c10a7de92f41ae84c57"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/hook-flags.js",
+      "sourceRelativePath": "scripts/lib/hook-flags.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/hook-flags.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1f5fbf2d2ebd0ab07a3e54406db18c2932ae7bf965513ec12c521da1be54425d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/hooks-config.js",
+      "sourceRelativePath": "scripts/lib/hooks-config.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/hooks-config.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1f956ee3f98c43213b247d347389fb202c40bbab9e908a3fdc78b760f2891808"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/inspection.js",
+      "sourceRelativePath": "scripts/lib/inspection.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/inspection.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4a760ac92a00878ff898a94fa4d28e27acc8c7248d0b1593ef236d6b198ea1b5"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-executor.js",
+      "sourceRelativePath": "scripts/lib/install-executor.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-executor.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ee0932b210425cb2b18618aed302806df13fced66b4393607138b00af144d5cb"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-lifecycle.js",
+      "sourceRelativePath": "scripts/lib/install-lifecycle.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-lifecycle.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d8928429d662e3fc2f8a21a4dc39148178edfb12225b13932838a497a042cc65"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-manifests.js",
+      "sourceRelativePath": "scripts/lib/install-manifests.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-manifests.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4cbb8cb2c7b55e8ff9292f858cdf09b771df20ffc92caa51f041658cb1048ec7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-state-store-sync.js",
+      "sourceRelativePath": "scripts/lib/install-state-store-sync.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-state-store-sync.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f493537dff4deb2ea4a094d4f263436b6bb0771862b6582b850459378cce3ea6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-state.js",
+      "sourceRelativePath": "scripts/lib/install-state.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-state.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "dd929c637c3a845a376d9e0fca071dfdf5710444bbafed4187294654516c6a8e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/adal-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/adal-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/adal-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "d0e011c0e52e2162e7f8c9daaf711d55c9ba739bb4b1f84df6b47520d5e945c1"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/antigravity-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/antigravity-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/antigravity-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "7a1576d2f8775436d1dd3a6545051c3527b6ceac6196e19f30489b8b1aabbf21"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/claude-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/claude-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/claude-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ed6e69fb0247cea6a86b01473de2b336040dcbf6e0c8fb6da5f59afe3a84de27"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/claude-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/claude-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/claude-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6cf6803ef420742445f4ead5bf9442f63ae6b2e58a45ee8ed5a85c7ce38c92f6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/codebuddy-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/codebuddy-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/codebuddy-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e3ba3ce6ddfda8f70529189ec01872165ad34c99a4cb0bdfb1c1f473efc7eb11"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/codex-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/codex-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/codex-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ea687959e8b34ff3816b0b352f09d827655053e5bb3c9df221c1ae010bfed61"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/cursor-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/cursor-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/cursor-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9e706ce0558c480d4d9b2acdad01b91fbeb6b57537a25e44324c0dea9efefbf6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/gemini-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/gemini-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/gemini-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "034c9fe5566fac06b66de1445078b6790b5371ec88dde219d04c9fa91e6170c0"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/helpers.js",
+      "sourceRelativePath": "scripts/lib/install-targets/helpers.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/helpers.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f38cedd94cb13c48485c61f991e2e552a40d0b5252a09d38623efbe712e9bde3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/hermes-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/hermes-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/hermes-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ec5ab71e063fa58a5eadf7f0446ef97da9d31e8f8f9ff4066a5e5738de81555"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/joycode-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/joycode-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/joycode-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6ead1448e2ea6b44ffa0a49d447fbe09db890f5b28f0552b287b6c63d3d39565"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/kimi-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/kimi-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/kimi-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "91a505c80bc8ab0dacf350b2ae31118a63e7f64a645024c97a32ffc921b1028b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/openclaw-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/openclaw-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/openclaw-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9bff2b34943d7b650be7ce7ea39a8766995f197ff5b0214a57d162ff06a092f9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/opencode-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/opencode-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/opencode-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e8591f48e4963b9774580a81e8fefb25cdcb9f8a3c0d8f5919b021013dc04a64"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/qwen-home.js",
+      "sourceRelativePath": "scripts/lib/install-targets/qwen-home.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/qwen-home.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0ff16a0b626e616cdb47ba752c256179bc1bc7b98e009aecc0d15ffacf5f21ae"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/registry.js",
+      "sourceRelativePath": "scripts/lib/install-targets/registry.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/registry.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "725bb39a936da624c376602eb5322dd270d5160871c45014c44f9669ad120636"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install-targets/zed-project.js",
+      "sourceRelativePath": "scripts/lib/install-targets/zed-project.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install-targets/zed-project.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "46367a5ae6fded350bcce30bb5a59ae7d86a65bd64aef0e502fa2aa225d73b80"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/antigravity-agent.js",
+      "sourceRelativePath": "scripts/lib/install/antigravity-agent.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/antigravity-agent.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9fc73be5de506706cf2cdb0a33750c97057263588055f39bba3171da9ab2e253"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/antigravity-legacy-migration.js",
+      "sourceRelativePath": "scripts/lib/install/antigravity-legacy-migration.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/antigravity-legacy-migration.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "dbc44bcbb3e2faa141bc64fe108f0d59e18a8a8299507be6552f5034e4ea7202"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/apply.js",
+      "sourceRelativePath": "scripts/lib/install/apply.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/apply.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2038ea0d9a0f205782d5bb810fe9b58d4469e68eb7e1be303153549fb8ef493a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/claude-settings-lock.js",
+      "sourceRelativePath": "scripts/lib/install/claude-settings-lock.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/claude-settings-lock.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3691ff987794e88d9fb5d1617c61f542f926463b0403b232f46ce155d54f59ac"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/claude-settings.js",
+      "sourceRelativePath": "scripts/lib/install/claude-settings.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/claude-settings.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "cfa6e372a507a3b95f1dd58a0b5cc6c7d4e6b99b16baf8284918511807e89fad"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/claude-skill-migration.js",
+      "sourceRelativePath": "scripts/lib/install/claude-skill-migration.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/claude-skill-migration.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "38d217536d66daf75b4e052c3ebc23c0b69da53ed2fa0559984d383a05af34e3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/codex-user-config.js",
+      "sourceRelativePath": "scripts/lib/install/codex-user-config.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/codex-user-config.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3a240b534670bab2b3d5029c53552375fbf4a5c01d40eb164659800aeb12e4bd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/config.js",
+      "sourceRelativePath": "scripts/lib/install/config.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/config.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c248281414336ff3628ad11c1d7996cab0a95e348ef0f8e2c3369289ffb1d791"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/excluded-paths-reconciliation.js",
+      "sourceRelativePath": "scripts/lib/install/excluded-paths-reconciliation.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/excluded-paths-reconciliation.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ac477126e7948af231612fbdd6e379cf2091d1bac62862f376bca5e2ec3db127"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/guarded-write.js",
+      "sourceRelativePath": "scripts/lib/install/guarded-write.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/guarded-write.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "fcf00a50d3c9181a45afdfa10dd28399fe23510b16d4de414168c85550dbc7b0"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/hook-consent.js",
+      "sourceRelativePath": "scripts/lib/install/hook-consent.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/hook-consent.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4f1506bbad284310af1419c0c55d9276902f6dae2d776ee9497acaaad6066006"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/inventory.js",
+      "sourceRelativePath": "scripts/lib/install/inventory.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/inventory.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "7cc825d933e6733abef2d43f24a22084055f2bf4096484ff7c57e832a050bd2e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/link-rewrite.js",
+      "sourceRelativePath": "scripts/lib/install/link-rewrite.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/link-rewrite.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4da79826d0c8a714a0ec6ffe02c97fce0acc2b2dcd4718c07c5219adaccbb41d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/opencode-install-lock.js",
+      "sourceRelativePath": "scripts/lib/install/opencode-install-lock.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/opencode-install-lock.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "449587461ff5dd17ef2fdbb4d2e3435fa10c10b85ede04e176a23776770ea46d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/opencode-legacy-migration.js",
+      "sourceRelativePath": "scripts/lib/install/opencode-legacy-migration.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/opencode-legacy-migration.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6f9dbbab3a605588a7d5060da37ad7f7a44f57f231e42a13b37dc3b172063ff0"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/ownership-guard.js",
+      "sourceRelativePath": "scripts/lib/install/ownership-guard.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/ownership-guard.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "000d8de192edceb32169b8725a797f908256f5a7e124c1803c29328eb07a36cc"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/plan.js",
+      "sourceRelativePath": "scripts/lib/install/plan.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/plan.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4ae2ff6e1995dffa87c012ad3cc4533b4a903b97f9be5ded663ce7cd760a679c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/request.js",
+      "sourceRelativePath": "scripts/lib/install/request.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/request.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8bcf1bcdda81d41b39bb97661474be3f2e2ef6abe712dc70c9b096f37d001fe3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/install/runtime.js",
+      "sourceRelativePath": "scripts/lib/install/runtime.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/install/runtime.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "59bedb1c5ea8ef70bc3a77f4700b651f80a0585c0c9aed7127f2441f0198c28c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/instinct-relevance.js",
+      "sourceRelativePath": "scripts/lib/instinct-relevance.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/instinct-relevance.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "57ff2a6c703ffdfcf7b962574848de332e3dc687ccfe95d588092302deb25401"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/invocation-environment.js",
+      "sourceRelativePath": "scripts/lib/invocation-environment.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/invocation-environment.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e9c06440387850efb9f6de652f3b5f3070ba929d6d091b66b670652b406683c8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/ito-environment.js",
+      "sourceRelativePath": "scripts/lib/ito-environment.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/ito-environment.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "fe1ba67f2ee2063a31d5b725263248adfd43a913000cb3128138166483698e8a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/llm-summary.js",
+      "sourceRelativePath": "scripts/lib/llm-summary.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/llm-summary.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ce2caaae62f8f50ff48cf07ce9cf1ae2b8e37162bd897e59055f6cf68725db97"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/loopback-guard.js",
+      "sourceRelativePath": "scripts/lib/loopback-guard.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/loopback-guard.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3efcc93c9c631876f824e61f97945a8260fba9ad7ea14baffee3de0781b74bcb"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-config.js",
+      "sourceRelativePath": "scripts/lib/mcp-config.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-config.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a6b1caaf4d7229ee1a02cad99e984a856c16b648fa292cc6044614503b05235d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-inventory/canonical-mcp.js",
+      "sourceRelativePath": "scripts/lib/mcp-inventory/canonical-mcp.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-inventory/canonical-mcp.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1dc36570cc53741bb057dc7557078cf0bfb580c111a65a683bd25c1a56ca0c64"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-inventory/collect.js",
+      "sourceRelativePath": "scripts/lib/mcp-inventory/collect.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-inventory/collect.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b3f5e14c927229a9ce3b00bb1d47bec108d41da59b7d0bc7f09753ac6c09c3dc"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-inventory/readers/claude-code.js",
+      "sourceRelativePath": "scripts/lib/mcp-inventory/readers/claude-code.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-inventory/readers/claude-code.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "5674d6ad9822a4e2cc6e37c4b6a9d25a77487f8f4e8addde9b7a27d17731d7f9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-inventory/readers/codex.js",
+      "sourceRelativePath": "scripts/lib/mcp-inventory/readers/codex.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-inventory/readers/codex.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "5cc9036dd43cffd81269f4eb67aceb8974003a757b95466fd55642ab6675d165"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/mcp-inventory/readers/opencode.js",
+      "sourceRelativePath": "scripts/lib/mcp-inventory/readers/opencode.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/mcp-inventory/readers/opencode.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e2e54561925e8c8271ff5a94de4875a6807294f9e1788982768a11d192c693dd"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/memory-vault-format.js",
+      "sourceRelativePath": "scripts/lib/memory-vault-format.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/memory-vault-format.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a5589f0cd0fd8a414436775e74243c39b068c86ddc99a4732d71ee54409a50c2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/memory-vault.js",
+      "sourceRelativePath": "scripts/lib/memory-vault.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/memory-vault.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "83461fea071d2a96ca29a9e9767df770a0363b98721e3eebd2b371ddc48453ab"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/missing-dependency.js",
+      "sourceRelativePath": "scripts/lib/missing-dependency.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/missing-dependency.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "63e18316c1e0ffbac1315fccd8e085df067970fda9d2372a69d09af4666a9ee7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/multi-harness-setup.js",
+      "sourceRelativePath": "scripts/lib/multi-harness-setup.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/multi-harness-setup.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6db93c07191da66bf058327150ffa87e648c9d2d3ddc80c8f802166269fa27df"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/nasiko-release.js",
+      "sourceRelativePath": "scripts/lib/nasiko-release.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/nasiko-release.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "87d9253ea6c05d7495b2dfde17f8e7b2ccec30d835c2bdc5f39027a806c98d11"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/observer-sessions.js",
+      "sourceRelativePath": "scripts/lib/observer-sessions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/observer-sessions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "f8d12ce13a257a33f41e6b796891aa8af001c48a8237f24afd4216a2e5f3bfaa"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/opencode-paths.js",
+      "sourceRelativePath": "scripts/lib/opencode-paths.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/opencode-paths.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8570d9b5a29a51afcfffc1af41da0b46980c03e28626e293e1be662eca392a71"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/orchestration-session.js",
+      "sourceRelativePath": "scripts/lib/orchestration-session.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/orchestration-session.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "20331231b9e0b0779c94698366f46973e0d5e424f19417395f34591b63d81904"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/package-manager.d.ts",
+      "sourceRelativePath": "scripts/lib/package-manager.d.ts",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/package-manager.d.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "56b3ab30d7652d0062fde605cfe4a797933521b1b2a0999e82959800ec3b0215"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/package-manager.js",
+      "sourceRelativePath": "scripts/lib/package-manager.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/package-manager.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "636f8bc8379ae0c26be1f7c5b61555cf2a274698a4f9fbd34e9eced9eacb3662"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/path-safety.js",
+      "sourceRelativePath": "scripts/lib/path-safety.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/path-safety.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "542126cf47247161dd26713a1f33d34af2881db46435ac8ecef76a8be31c062c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/plan-canvas/markdown.js",
+      "sourceRelativePath": "scripts/lib/plan-canvas/markdown.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/plan-canvas/markdown.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "bb68dda565690e3830c93c64fb502dc4dc1ecf036c0cfdbd6d38d78022b58d72"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/plan-canvas/sdk.js",
+      "sourceRelativePath": "scripts/lib/plan-canvas/sdk.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/plan-canvas/sdk.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "26c0618591cbf6aac5cebf1b9555dc364ba87ad8213876a886318712b0324359"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/plan-canvas/server.js",
+      "sourceRelativePath": "scripts/lib/plan-canvas/server.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/plan-canvas/server.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a617d3a0fb0f18b9e7a2257c70e6e585a75615598c087d2d217efbfe63fa59c3"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/plan-canvas/sessions.js",
+      "sourceRelativePath": "scripts/lib/plan-canvas/sessions.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/plan-canvas/sessions.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "12c0d16b99910bbaff7d462f4fab6865e92426fc2b179f577bb920011ead7d32"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/plan-canvas/ui.js",
+      "sourceRelativePath": "scripts/lib/plan-canvas/ui.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/plan-canvas/ui.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "73ee795cb6ce3960b3ac38c1bfdf1cef9f0ace8f412a4673280503ac60451d93"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/platform-launch.js",
+      "sourceRelativePath": "scripts/lib/platform-launch.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/platform-launch.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "953683e8c2a7057ac93ae1bc00979665360529431a08d004ba87876dcfee983e"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/powershell-destructive-command.js",
+      "sourceRelativePath": "scripts/lib/powershell-destructive-command.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/powershell-destructive-command.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "90748dfc22acabb22ebb6e8365d6821b6cb04acba3af467fdb239d5d66ceaa7b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/project-detect.js",
+      "sourceRelativePath": "scripts/lib/project-detect.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/project-detect.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "30abb668fb79d96f6a403494d5ee3ac1d25bb3688099e9c962533b44f236fb90"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/resolve-ecc-root.js",
+      "sourceRelativePath": "scripts/lib/resolve-ecc-root.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/resolve-ecc-root.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c36f288d96abcbababfc3284f11ab807eb040853bcdf9b97dcd7ac77506df86c"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/resolve-formatter.js",
+      "sourceRelativePath": "scripts/lib/resolve-formatter.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/resolve-formatter.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4e0ecb82f611c1d3ea17767f4df1abf90bb508054fbfb51371f24c92263eee58"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/canonical-session.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/canonical-session.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/canonical-session.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ab452ce5008ab08af750dbe011b010be96f534d6d5f70fc6651cbf0bff585b66"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/claude-history.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/claude-history.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/claude-history.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a7ba74dfcf7a3724cf0dab008160c4797dd3f2964eb93e3ef6cf8ad2e553f22f"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/codex-worktree.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/codex-worktree.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/codex-worktree.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0760a00fb7252902c3ce48badc56a2d08d58d622585e98d46ea18b913afba906"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/dmux-tmux.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/dmux-tmux.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/dmux-tmux.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "b907b946fddc4e1266cfb058c52a20dd8accf8b6bc0b50ae20289a6792908b06"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/opencode.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/opencode.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/opencode.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c11dc570443765568bc6520b69ba16ae2c6e69f0390ccb3e3530d3e177e71eb7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-adapters/registry.js",
+      "sourceRelativePath": "scripts/lib/session-adapters/registry.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-adapters/registry.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "4058e4eaea56a4eae53e4bbf70834d4b9a4d609e3f0af23d4aded61fee3eac48"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-aliases.d.ts",
+      "sourceRelativePath": "scripts/lib/session-aliases.d.ts",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-aliases.d.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1a7fbaec2a70335d8ad0280577e47d157f60f08e7f312a57dc415567d5c999a4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-aliases.js",
+      "sourceRelativePath": "scripts/lib/session-aliases.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-aliases.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a601ab52fddf9b2d2010460815eb8820e14dce3268efca0dce79dd4bc4b6d2fc"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-bridge.js",
+      "sourceRelativePath": "scripts/lib/session-bridge.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-bridge.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9ad9c91f1ad63c04ab3bbefba28608403ff9e0b60744ac3f18eea9478e0d040d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-cost-snapshot.js",
+      "sourceRelativePath": "scripts/lib/session-cost-snapshot.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-cost-snapshot.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a9573841c8862bb274e46bc73708d9077865750820c36df569def539a90630c4"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-manager.d.ts",
+      "sourceRelativePath": "scripts/lib/session-manager.d.ts",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-manager.d.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "5bcfabc789b4107f86293fdc239cc05140abb807690b7d416858362a30475c25"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/session-manager.js",
+      "sourceRelativePath": "scripts/lib/session-manager.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/session-manager.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "cbfac8b5aa349b01de0ddced7aeaea99a5df4e8306c3077ef08aacc4d5700555"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/shell-split.js",
+      "sourceRelativePath": "scripts/lib/shell-split.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/shell-split.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2b8c4dfebdab9426c3e01550572762070250638be959207e906faaa2635674e5"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/shell-substitution.js",
+      "sourceRelativePath": "scripts/lib/shell-substitution.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/shell-substitution.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "36023c065ca40d2b40feccb3659deaa4dd195eda9ccf3ccd89ae44c0c45b10be"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/dashboard.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/dashboard.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/dashboard.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "8e817cdbdd354c3641e64f1edca4f6405203f3b36de948b4d881e516197eeb50"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/health.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/health.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/health.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a11a8eab2d7425bae51233d10a28ceb28060948bb07c1c7fafd65ed44b9887cc"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/index.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/index.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/index.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "9947c13837f81f548eb36367c7228efecbeacc112cb2b933831bd8fc0e50c6ee"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/provenance.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/provenance.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/provenance.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6480ff6d2a9cf8974e046fb049e26ceca81568ccba761cdc661feece7e515905"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/tracker.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/tracker.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/tracker.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a4aaf552a06e45e5ccb1fe76c4ec98566ff088967102f86f968dadb6b102054b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-evolution/versioning.js",
+      "sourceRelativePath": "scripts/lib/skill-evolution/versioning.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-evolution/versioning.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "ad7f4ce120ff04f3340fec49d486df3c90c11749998cf46356b6802ba1c24a0f"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-improvement/amendify.js",
+      "sourceRelativePath": "scripts/lib/skill-improvement/amendify.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-improvement/amendify.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "6b8411706a51211e3978beb2c1726fbc8aff88c3633cbead5da8e3909ed08db7"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-improvement/evaluate.js",
+      "sourceRelativePath": "scripts/lib/skill-improvement/evaluate.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-improvement/evaluate.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "50334f4db1f0e8674bb459d4934744e305a45e3da203a09e98a5835ed45ba089"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-improvement/health.js",
+      "sourceRelativePath": "scripts/lib/skill-improvement/health.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-improvement/health.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "171a92c0cc0059e9d60a4814d5abaa14aaafa017190e52dfc4aed40ff569eb2f"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/skill-improvement/observations.js",
+      "sourceRelativePath": "scripts/lib/skill-improvement/observations.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/skill-improvement/observations.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "974219d2f10403cd82ec15554a30c2298b980c1bf4febf0afa8054cd72b3bb53"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/state-store/index.js",
+      "sourceRelativePath": "scripts/lib/state-store/index.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/state-store/index.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "180a207c4732daae5ee683f895e0fd2fef0c831e989eb92fa9d7c3fbbdd93b8d"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/state-store/install-state-projection.js",
+      "sourceRelativePath": "scripts/lib/state-store/install-state-projection.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/state-store/install-state-projection.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "a57ca4573db5f77a738d35eb8e5fac40ecfe7ca8068b30bcfe32829252356eac"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/state-store/migrations.js",
+      "sourceRelativePath": "scripts/lib/state-store/migrations.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/state-store/migrations.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "31e3e814165eb365fe37c7ec5b31a3f8419e5fbe3b2613b75cb4c775356e00ef"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/state-store/queries.js",
+      "sourceRelativePath": "scripts/lib/state-store/queries.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/state-store/queries.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "3873fca7da5c7c2b3e5ae055c4655915dc670b026ce1b7295e0ea7c41e4c4fcf"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/state-store/schema.js",
+      "sourceRelativePath": "scripts/lib/state-store/schema.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/state-store/schema.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "716d12244a0921c3230a58ea0b061532a858c5d2a2e9e915314d50ab4e1cf81b"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/terminal-spinner.js",
+      "sourceRelativePath": "scripts/lib/terminal-spinner.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/terminal-spinner.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "af7a4552403df488be6c71c612d7015a7b18b29df09fd5a6d28fe9615214a828"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/terminal-welcome.js",
+      "sourceRelativePath": "scripts/lib/terminal-welcome.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/terminal-welcome.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "0235c151d8222666f70d022cdd9510f628944a97b70c4e35a676dd83a033244a"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/tmux-worktree-orchestrator.js",
+      "sourceRelativePath": "scripts/lib/tmux-worktree-orchestrator.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/tmux-worktree-orchestrator.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "82f96abe2c69d2e8aefed72b7d58214bf2c0adfded1ffa4895999eed96fc95ee"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/transcript-context.js",
+      "sourceRelativePath": "scripts/lib/transcript-context.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/transcript-context.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "38f399260f79904bc8a97448d1dff965aaf0f04596143ce344fdbf64747bf0a2"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/utils.d.ts",
+      "sourceRelativePath": "scripts/lib/utils.d.ts",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/utils.d.ts",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "e1f069be658ec550347d24a06bbb163a1a2072022ca03a68941ec3295d8e43e6"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/utils.js",
+      "sourceRelativePath": "scripts/lib/utils.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/utils.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "c9a84bd7993cb65e532a16b1872ce468b869ec40aac2d743aa03bcbf6a6dd5a8"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/worktree-lifecycle/git.js",
+      "sourceRelativePath": "scripts/lib/worktree-lifecycle/git.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/worktree-lifecycle/git.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "1e4ae40955370fab145ab2113408a97fa23c96fd596ccfa82999b2625a2237b9"
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "hooks-runtime",
+      "sourcePath": "/Users/gvincenta/.npm/_npx/75937596e609f96e/node_modules/ecc-universal/scripts/lib/worktree-lifecycle/lifecycle.js",
+      "sourceRelativePath": "scripts/lib/worktree-lifecycle/lifecycle.js",
+      "destinationPath": "/Users/gvincenta/Desktop/restaurant-rag/.claude/scripts/lib/worktree-lifecycle/lifecycle.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false,
+      "contentSha256": "2cc84526644db7b61038f30f7a53ce8f43e33b8dbb9a64c1e6fa85d434173c21"
     }
   ]
 }
