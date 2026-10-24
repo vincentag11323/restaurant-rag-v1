@@ -25,6 +25,11 @@ export interface GuestProfile {
   readonly branches: readonly string[];
   readonly lastVisit: string;
   readonly favouriteMains: readonly string[];
+  /** Visits where the table ordered no main course at all, only sides and drinks. */
+  readonly chillVisits: number;
+  readonly chillShare: number;
+  /** Share of item spend that went on sides and drinks (0..1). */
+  readonly snackSpendShare: number;
 }
 
 const HAPPY_HOUR_START = "16:00";
@@ -41,7 +46,7 @@ export function isHappyHour(time: string): boolean {
 function countMains(invoices: readonly Invoice[]): Map<string, number> {
   const counts = new Map<string, number>();
   for (const line of invoices.flatMap((i) => i.lines)) {
-    if (findMenuItem(line.item)?.category === "main") counts.set(line.item, (counts.get(line.item) ?? 0) + line.quantity);
+    if (isMain(line.item)) counts.set(line.item, (counts.get(line.item) ?? 0) + line.quantity);
   }
   return counts;
 }
@@ -56,6 +61,17 @@ function foodShares(mainCounts: ReadonlyMap<string, number>): Record<FoodGroup, 
   >;
 }
 
+const isMain = (item: string) => findMenuItem(item)?.category === "main";
+
+/** Share of item spend (before service charge) on sides and drinks. */
+function snackShare(invoices: readonly Invoice[]): number {
+  const lines = invoices.flatMap((i) => i.lines);
+  const spend = (filter: (item: string) => boolean) =>
+    lines.filter((l) => filter(l.item)).reduce((sum, l) => sum + (findMenuItem(l.item)?.priceUsd ?? 0) * l.quantity, 0);
+  const total = spend(() => true);
+  return total ? round(spend((item) => !isMain(item)) / total, 3) : 0;
+}
+
 function buildProfile(invoices: readonly Invoice[]): GuestProfile {
   const sorted = invoices.toSorted((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
   const latest = sorted.at(-1);
@@ -66,6 +82,7 @@ function buildProfile(invoices: readonly Invoice[]): GuestProfile {
   const wine = sorted.flatMap((i) => i.lines).filter((l) => l.item === WINE_ITEM).reduce((s, l) => s + l.quantity, 0);
   const happyHourVisits = sorted.filter((i) => isHappyHour(i.time)).length;
   const mainCounts = countMains(sorted);
+  const chillVisits = sorted.filter((i) => !i.lines.some((l) => isMain(l.item))).length;
 
   return {
     guestId: `guest-${createHash("sha256").update(latest.guest.email).digest("hex").slice(0, 10)}`,
@@ -91,6 +108,9 @@ function buildProfile(invoices: readonly Invoice[]): GuestProfile {
       .toSorted((a, b) => b[1] - a[1])
       .slice(0, FAVOURITE_MAINS_SHOWN)
       .map(([item, n]) => `${item} x${n}`),
+    chillVisits,
+    chillShare: round(chillVisits / sorted.length, 3),
+    snackSpendShare: snackShare(sorted),
   };
 }
 
@@ -115,10 +135,16 @@ export function profileText(p: GuestProfile): string {
   return [
     `Diner with ${p.visits} visit(s) in ${p.quarters.join(", ")}, dining in ${parties}.`,
     p.vipVisits > 0 ? `Booked private VIP rooms ${p.vipVisits} time(s) for events.` : "Dines in the main hall.",
-    `Main courses ordered: ${groups.join(", ")}.`,
-    `Favourite dishes: ${p.favouriteMains.join(", ")}.`,
+    groups.length > 0 ? `Main courses ordered: ${groups.join(", ")}.` : "",
+    p.favouriteMains.length > 0 ? `Favourite dishes: ${p.favouriteMains.join(", ")}.` : "",
+    p.chillVisits > 0
+      ? `Comes just to chill with drinks and sides (${p.chillVisits} of ${p.visits} visits without a main course).`
+      : "",
+    p.snackSpendShare >= 0.5 ? "Spends mostly on snacks and drinks." : "",
     `Average spend $${p.avgSpendPerVisitUsd.toFixed(2)} per visit, $${p.avgSpendPerGuestUsd.toFixed(2)} per guest.`,
     p.winePerGuest >= 0.5 ? "Enjoys house wine with meals." : "Rarely orders wine.",
     p.happyHourShare >= 0.5 ? "Often visits during happy hour (16:00-18:00)." : "Usually visits outside happy hour.",
-  ].join(" ");
+  ]
+    .filter((sentence) => sentence !== "")
+    .join(" ");
 }

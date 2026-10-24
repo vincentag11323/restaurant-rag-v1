@@ -29,7 +29,7 @@ describe("intentSignals", () => {
   });
 
   test("ranks smaller parties higher for an upper-bound rule, without duplicating fields", () => {
-    expect(fields("budget-small-parties-lunch")).toEqual(["maxPartySize:-1", "poultryPermille:1"]);
+    expect(fields("budget-small-parties-lunch")).toEqual(["maxPartySize:-1", "avgSpendPerVisitCents:-1", "poultryPermille:1"]);
     expect(fields("q2-lamb-shank-red-meat-fans")).toEqual(["redMeatPermille:1"]);
   });
 });

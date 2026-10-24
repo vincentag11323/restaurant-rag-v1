@@ -26,11 +26,11 @@ const PROMPT = ChatPromptTemplate.fromMessages([
     "system",
     "You are the marketing copywriter for ResortOS, a two-branch restaurant with a main dining hall and private VIP rooms. " +
       "Write one promotional email: a subject line, then a body of at most 120 words. Greet the guest with {placeholder}. " +
-      "Only mention the promoted dishes listed, with the exact prices given. Do not invent discounts, dates or dishes.",
+      "Only mention the offer and promoted dishes listed, with the exact prices given. Do not invent discounts, dates or dishes.",
   ],
   [
     "human",
-    "Campaign: {title}\nGoal: {question}\nPromoted dishes: {dishes}\nAudience: {size} guests matching: {segment}.",
+    "Campaign: {title}\nGoal: {question}\nOffer: {offer}\nPromoted dishes: {dishes}\nAudience: {size} guests matching: {segment}.",
   ],
 ]);
 
@@ -45,6 +45,7 @@ function promptVariables(spec: CampaignSpec, audience: AudienceSummary) {
     placeholder: FIRST_NAME_PLACEHOLDER,
     title: spec.title,
     question: spec.question,
+    offer: spec.offer ?? "none; invite them to visit",
     dishes: describeDishes(spec.promotedItems),
     size: String(audience.size),
     segment: segment.length > 0 ? segment.join("; ") : "all past guests",

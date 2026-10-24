@@ -26,7 +26,7 @@ stops and says which one.
 
 ## Step 1: One card per guest 🪪
 
-Reading 25 receipts every time would be slow, so the robot makes **one card per guest**:
+Reading 35 receipts every time would be slow, so the robot makes **one card per guest**:
 
 > **Sarah's card:** came 2 times · always eats seafood (100%) · small tables of 2 to 4 ·
 > likes wine · came once at happy hour · spends about $128 a visit · allergies: none
@@ -70,8 +70,8 @@ Being *near* the question isn't enough. Each party has a **bouncer with a list o
 - **"Must NOT be allergic to seafood"** ← the most important rule
 
 The bouncer works **inside the library**, so allergic guests are never even handed to
-the robot. For the Seafood Festival, 5 of our best customers (Olivia, Hannah, Mei Lin,
-Daniel, Emma) are allergic to seafood, so they are **left out**. The robot also tells
+the robot. For the Seafood Festival, 6 of our best customers (Olivia, Hannah, Mei Lin,
+Daniel, Emma, Marco) are allergic to seafood, so they are **left out**. The robot also tells
 us they were left out and why.
 
 ## Step 4: The teacher double-checks ✅
@@ -110,8 +110,9 @@ guest gets **two stars**:
 
 For the Seafood Festival the line is: **Sarah (100% seafood) → Lucas → Aisha → ...**
 
-We tested this: before the two stars, the line was right about 64% of the way; now it's
-about 87% (`npm run eval:ranking` measures it).
+We tested this: before the two stars, the line matched real fans 0.64 out of 1; now it's
+0.77 overall, or 0.92 without two known-hard campaigns (`npm run eval:ranking` measures it;
+see `rag-tuning-findings.txt`).
 
 ## Step 6: The letter writer ✍️ (the "G" in RAG: Generation)
 
@@ -120,7 +121,7 @@ Finally, a letter writer (the AI model **DeepSeek**) writes the invitation email
 We only tell the writer **general things**:
 
 > "Seafood Festival. Dishes: Barramundi ($34.00), Grilled Prawn Salad ($26.00), Fish &
-> Chips ($22.00). 8 guests who spend $100+ per visit. Greet them with {{first_name}}."
+> Chips ($22.00). 9 guests who spend $100+ per visit. Greet them with {{first_name}}."
 
 The writer **never** learns anyone's name, email, phone, or allergies. The real names get
 filled in later, at sending time.
@@ -128,6 +129,57 @@ filled in later, at sending time.
 - **No DeepSeek key yet?** The robot does a **dry run**: it shows who would be invited and
   the exact note it *would* send to the writer, but writes no letter.
 - **Nobody allowed to come?** It doesn't bother the writer at all.
+
+---
+
+## Talking to the robot 💬 (the chat page)
+
+Open **http://localhost:3000** and just type, like texting a friend.
+
+**Ask WHO** (starts with *who / which / show / list*) and the robot lists guests:
+
+> **You:** who is allergic to red meat?
+> **Robot:** 5 guests: Priya, Raj, Hannah, Olivia, Aisha (with what they spend and what they're allergic to)
+
+**Ask for a CAMPAIGN** (says *campaign / promo / deal / offer*) and the robot **designs the party for you**:
+
+> **You:** create a marketing campaign for non seafood fans
+> **Robot:** ★ **Happy Hour Meat Lovers Bundle for 5:** 5x Beef Steak + 3x Fries + 5x House Wine
+> for **$190** (menu $271, save $81). Happy hour, dine-in.
+> *Why:* 9 of 11 diners mostly eat red meat · typical table is 5 · half come at happy hour ·
+> they like wine. ⚠ Left out: Hannah and Olivia (allergic to red meat). Invite these 12 guests...
+
+How does the robot design the party? Like a good party planner:
+
+1. **Who's coming?** It reads your words (*"non seafood fans"* → "eats seafood less than 25% of
+   the time") and shows you **exactly how it understood you**, so you can check.
+2. **What do they love?** Every guest gets **one vote** for the food they eat most (so one big
+   50-person table can't shout over everyone). Most votes wins. If it's a tie, it picks the food
+   that **leaves out fewer allergic guests**.
+3. **How many per table?** The usual table size for these guests.
+4. **When?** If at least half of them come at happy hour, it's a happy hour deal.
+5. **How much?** Real menu prices, **minus 30%**, rounded to a nice $5. Never made up.
+6. **Safety:** the bouncer and teacher from before still check that nobody gets food they're
+   allergic to.
+
+Words the robot understands:
+
+| Say... | It means... |
+|---|---|
+| *seafood / red meat / chicken / veggie **fans** (or lovers)* | eats that food at least half the time |
+| ***non** seafood fans*, *don't like chicken* | eats that food less than 25% of the time |
+| *allergic to red meat* / ***not** allergic to seafood* | has / doesn't have that allergy |
+| *just to chill*, *only sides*, *no mains* | comes for drinks and sides only, at least half the time |
+| *snacks* | spends at least half their money on sides and drinks |
+| *happy hour* | comes 16:00-18:00 at least half the time |
+| *wine lovers* | 0.75+ glasses of wine per guest |
+| *spends more than $500 (per visit)* / *spent over $500 **in total*** | big bill per visit / big total |
+| *under $100*, *budget* | spends under that per visit |
+| *big parties*, *event hosts* / *small parties*, *couples* | biggest party 26+ / 4 or fewer |
+| *VIP*, *Q1-Q4*, *regulars* | booked a VIP room / visited that quarter / 2+ visits |
+
+The robot doesn't need the internet or a paid AI for any of this. With a DeepSeek key, it also
+writes the invitation email.
 
 ---
 
@@ -167,16 +219,14 @@ npm run ingest        # 2. make the guest cards and put them in the library
 npm run dev           # 3. start the robot at http://localhost:3000
 ```
 
-Then open in your browser:
-
-- http://localhost:3000/campaigns: all 12 ready-made questions
-- http://localhost:3000/campaigns/seafood-festival-high-spenders: run one
+Then open **http://localhost:3000** in your browser and start chatting (or click one of the example
+buttons). Grown-ups who like raw JSON can still use `/api`, `/campaigns` and `POST /campaigns/ask`.
 
 Other useful commands:
 
 | Command | What it does |
 |---|---|
-| `npm test` | Runs all 82 checks (start `npm run chroma` first for the library tests) |
+| `npm test` | Runs all 116 checks (start `npm run chroma` first for the library tests) |
 | `npm run eval:ranking` | Grades how well the line-up order matches real fans |
 | `npm run ingest` | Re-run whenever `invoices.csv` changes |
 
@@ -196,6 +246,9 @@ To get real letters, copy `.env.example` to `.env` and add `DEEPSEEK_API_KEY=...
 | LLM (DeepSeek) | The letter writer | `src/rag/draft.ts` |
 | Trace | The robot's diary of each step | `trace` in every API answer |
 | Campaign preset | A ready-made party question | `src/campaign/presets.ts` |
+| Prompt interpreter | The robot's ears: turns your words into rules | `src/chat/interpret.ts` |
+| Campaign planner | The party planner: picks food, size, time, price | `src/chat/planner.ts` |
+| Chat page | Where you talk to the robot | `src/chat/page.ts`, http://localhost:3000 |
 
 ## Want more detail?
 

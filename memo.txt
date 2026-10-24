@@ -5,7 +5,8 @@
 
 1. MOCK DATA DECISIONS
 --------------------------------------------------------------------------------
-- Scope: 25 invoices for 2025 only, 15 guests (9 of them repeat guests), both branches.
+- Scope: 35 invoices for 2025 only, 20 guests, both branches. The 10 added later cover
+  chillers (sides and drinks only), a wine-only late guest and red-meat happy-hour tables.
 - Prices are fixed in USD (menu book: data/mock/menu.txt). A 10% service charge is
   added to every subtotal. No tax line. A test (menu.test.ts) fails if menu.txt and
   the code ever disagree, and the CSV loader rejects any invoice whose totals do not
@@ -18,7 +19,8 @@
 - Allergies belong to the person who booked, and the whole table avoids the conflicting
   food. So an allergic guest's invoices never contain their allergen, which is what
   "the allergy must make sense with what they ordered" means in the data.
-- Every party orders exactly one main per person, so food shares are meaningful.
+- Dining parties order exactly one main per person, so food shares are meaningful;
+  "chill" visits order no mains at all (sides and drinks only).
 - VIP parties fit their rooms (about 12-13 seats per room; 26+ needs 3 rooms, 50 needs all 4).
 - ADDED A `time` COLUMN. The invoices had dates only, so "do they like happy hour?"
   could not be answered. Happy hour = visit starting 16:00-17:59, ANY day (most mock
@@ -133,7 +135,7 @@
 - .npmrc legacy-peer-deps=true: @langchain/community lists ~100 optional peers; one
   (@browserbasehq/stagehand) demands zod v3 and blocks install. We don't use it. The
   peers we do use (chromadb, @huggingface/transformers v3) are installed explicitly.
-- Tests: 82 (vitest), including the 12 campaigns run end-to-end against real Chroma
+- Tests: 116 (vitest), including the 12 campaigns run end-to-end against real Chroma
   and a ranking-quality regression guard (`npm run eval:ranking`).
 
 7. FINE-TUNING (details + sequence diagram: rag-tuning-findings.txt)
@@ -145,7 +147,23 @@
 - Retrieval is now 5 named, traced stages: plan -> search -> verify -> rerank -> draft.
   The trace is returned by the API and logged once per campaign (no contact details).
 
-8. NEXT STEPS
+8. CHAT + CAMPAIGN PLANNER (round 2)
+--------------------------------------------------------------------------------
+- Chat page at http://localhost:3000 (server-rendered by Hono, no client JS, CSRF-protected).
+  POST /campaigns/ask gives the same answer as JSON.
+- Prompt -> rules WITHOUT an LLM: a closed, negation-aware vocabulary (fans / non-fans,
+  allergic / not allergic, chill, snacks, happy hour, wine, $ per visit vs $ in total,
+  party size, VIP, quarter, regulars). It always echoes how it understood the prompt.
+- "Spends more than $500": per visit by default; "in total" switches to lifetime spend.
+- Planner designs the offer from the matched guests: theme by one vote per diner (ties go
+  to the food that excludes fewer allergic guests), their most-ordered dish, median table
+  size, happy hour if half of them come then, wine if they drink it, and menu price minus
+  30% rounded to $5. Every choice is listed as evidence.
+- New guest signals: chill share (visits with no mains), snack-and-drink share of spend.
+- New rules: non-fan (< 25% of mains), chill, snacks, total spend, VIP, allergic-to and
+  not-allergic-to segments.
+
+9. NEXT STEPS
 --------------------------------------------------------------------------------
 - Add DEEPSEEK_API_KEY to .env to switch from dry-run to drafted copy.
 - Natural-language question -> campaign spec (LLM structured output, validated by Zod,

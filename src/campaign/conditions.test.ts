@@ -80,3 +80,30 @@ describe("assertAllergySafe", () => {
     );
   });
 });
+
+describe("segment rules added for chat prompts", () => {
+  const view = (audience: Parameters<typeof audienceConditions>[0]) =>
+    audienceConditions(audience).map(({ field, op, value, role }) => ({ field, op, value, role }));
+
+  test("non-fans, chillers, snackers, total spend, VIP and allergy segments", () => {
+    expect(
+      view({
+        maxSeafoodShare: 0.25,
+        minChillShare: 0.5,
+        minSnackSpendShare: 0.5,
+        minTotalSpendUsd: 500,
+        minVipVisits: 1,
+        allergicTo: "red meat",
+        notAllergicTo: "seafood",
+      }),
+    ).toEqual([
+      { field: "seafoodPermille", op: "$lt", value: 250, role: "preference" },
+      { field: "chillPermille", op: "$gte", value: 500, role: "preference" },
+      { field: "snackSpendPermille", op: "$gte", value: 500, role: "preference" },
+      { field: "totalSpendCents", op: "$gte", value: 50000, role: "gate" },
+      { field: "vipVisits", op: "$gte", value: 1, role: "gate" },
+      { field: "allergyRedMeat", op: "$eq", value: true, role: "gate" },
+      { field: "allergySeafood", op: "$eq", value: false, role: "gate" },
+    ]);
+  });
+});

@@ -1,5 +1,6 @@
 import { serve } from "@hono/node-server";
 import { createApp } from "./app.js";
+import { createAssistant } from "./chat/assistant.js";
 import { loadConfig } from "./config.js";
 import { loadGuestProfiles } from "./domain/load-profiles.js";
 import { createCampaignRunner } from "./rag/campaign-runner.js";
@@ -20,7 +21,9 @@ const runner = createCampaignRunner({
   log: (line) => process.stdout.write(`${line}\n`),
 });
 
-serve({ fetch: createApp(runner).fetch, port: config.port }, (info) => {
+const assistant = createAssistant({ runner, profiles });
+
+serve({ fetch: createApp({ runner, assistant }).fetch, port: config.port }, (info) => {
   const llm = config.deepseek.apiKey ? `DeepSeek (${config.deepseek.model})` : "dry-run (no DEEPSEEK_API_KEY)";
-  process.stdout.write(`ResortOS RAG on http://localhost:${info.port} · ${profiles.length} guests · drafting: ${llm}\n`);
+  process.stdout.write(`ResortOS RAG chat on http://localhost:${info.port} · ${profiles.length} guests · drafting: ${llm}\n`);
 });

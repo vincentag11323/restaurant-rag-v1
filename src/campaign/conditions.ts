@@ -50,6 +50,8 @@ export function toMetadata(p: GuestProfile): Metadata {
       Object.entries(FOOD_GROUP_FIELD).map(([group, field]) => [field, permille(p.foodShare[group as FoodGroup])]),
     ),
     winePerGuestPermille: permille(p.winePerGuest),
+    chillPermille: permille(p.chillShare),
+    snackSpendPermille: permille(p.snackSpendShare),
     ...Object.fromEntries(QUARTERS.map((q) => [`visited${q}`, p.quarters.includes(q)])),
     allergySeafood: p.allergies.includes("seafood"),
     allergyRedMeat: p.allergies.includes("red meat"),
@@ -65,6 +67,10 @@ const rule = (
   label: string,
 ): Condition => ({ field, op, value, role, label });
 
+const ALLERGY_FIELD: Readonly<Record<Allergen, string>> = { seafood: "allergySeafood", "red meat": "allergyRedMeat" };
+const below = (field: string, v: number, group: string) =>
+  rule("preference", field, "$lt", permille(v), `${group} is under ${pct(v)} of mains`);
+
 const RULES: { readonly [K in keyof Audience]-?: (value: NonNullable<Audience[K]>) => Condition } = {
   minRedMeatShare: (v) => rule("preference", "redMeatPermille", "$gte", permille(v), `red meat is ${pct(v)}+ of mains`),
   minSeafoodShare: (v) => rule("preference", "seafoodPermille", "$gte", permille(v), `seafood is ${pct(v)}+ of mains`),
@@ -74,13 +80,28 @@ const RULES: { readonly [K in keyof Audience]-?: (value: NonNullable<Audience[K]
   minLargestParty: (v) => rule("preference", "maxPartySize", "$gte", v, `has hosted a party of ${v}+`),
   maxLargestParty: (v) => rule("preference", "maxPartySize", "$lte", v, `parties of ${v} or fewer`),
   minAvgSpendPerVisitUsd: (v) => rule("gate", "avgSpendPerVisitCents", "$gte", cents(v), `spends $${v}+ per visit`),
-  maxAvgSpendPerVisitUsd: (v) => rule("gate", "avgSpendPerVisitCents", "$lt", cents(v), `spends under $${v} per visit`),
+  // A spend CEILING describes a price-sensitive audience, which is what a budget offer is about,
+  // so it ranks (lower spend first). A spend FLOOR is only an eligibility gate (finding F3).
+  maxAvgSpendPerVisitUsd: (v) =>
+    rule("preference", "avgSpendPerVisitCents", "$lt", cents(v), `spends under $${v} per visit`),
   minHappyHourShare: (v) =>
     rule("preference", "happyHourPermille", "$gte", permille(v), `${pct(v)}+ of visits at happy hour`),
   minWinePerGuest: (v) =>
     rule("preference", "winePerGuestPermille", "$gte", permille(v), `${v}+ glasses of wine per guest`),
   minVisits: (v) => rule("gate", "visits", "$gte", v, `${v}+ visits`),
   visitedQuarter: (q) => rule("gate", `visited${q}`, "$eq", true, `dined in ${q}`),
+  maxRedMeatShare: (v) => below("redMeatPermille", v, "red meat"),
+  maxSeafoodShare: (v) => below("seafoodPermille", v, "seafood"),
+  maxPoultryShare: (v) => below("poultryPermille", v, "poultry"),
+  maxVegetarianShare: (v) => below("vegetarianPermille", v, "vegetarian"),
+  minChillShare: (v) =>
+    rule("preference", "chillPermille", "$gte", permille(v), `${pct(v)}+ of visits just to chill (no mains)`),
+  minSnackSpendShare: (v) =>
+    rule("preference", "snackSpendPermille", "$gte", permille(v), `${pct(v)}+ of spend on snacks and drinks`),
+  minTotalSpendUsd: (v) => rule("gate", "totalSpendCents", "$gte", cents(v), `spent $${v}+ in total`),
+  minVipVisits: (v) => rule("gate", "vipVisits", "$gte", v, `booked VIP rooms ${v}+ time(s)`),
+  allergicTo: (a) => rule("gate", ALLERGY_FIELD[a], "$eq", true, `allergic to ${a}`),
+  notAllergicTo: (a) => rule("gate", ALLERGY_FIELD[a], "$eq", false, `no ${a} allergy`),
 };
 
 export function audienceConditions(audience: Audience): Condition[] {
@@ -88,8 +109,6 @@ export function audienceConditions(audience: Audience): Condition[] {
     value === undefined ? [] : [RULES[key as keyof Audience](value as never)],
   );
 }
-
-const ALLERGY_FIELD: Readonly<Record<Allergen, string>> = { seafood: "allergySeafood", "red meat": "allergyRedMeat" };
 
 export function allergyConditions(allergens: readonly Allergen[]): Condition[] {
   return allergens.map((a) => rule("gate", ALLERGY_FIELD[a], "$eq", false, `no ${a} allergy`));

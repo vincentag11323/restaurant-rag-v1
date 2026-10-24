@@ -16,7 +16,9 @@ export const RANKING_GROUND_TRUTH: Readonly<Record<string, (p: GuestProfile) => 
   "christmas-banquet-event-hosts": (p) => p.maxPartySize,
   "happy-hour-regulars": (p) => p.happyHourShare,
   "budget-small-parties-lunch": (p) => -p.avgSpendPerVisitUsd,
-  "wine-lovers-steak-pairing": (p) => p.winePerGuest,
+  // Label revised when wine-only guests (no mains) were added: a steak & wine dinner fits
+  // guests who drink wine AND eat red meat, not the biggest wine drinker who never orders food.
+  "wine-lovers-steak-pairing": (p) => p.winePerGuest * p.foodShare["red meat"],
   "vegetarian-risotto-q3": (p) => p.foodShare.vegetarian,
   "q2-lamb-shank-red-meat-fans": (p) => p.foodShare["red meat"],
 };

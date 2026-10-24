@@ -23,8 +23,8 @@ describe("isHappyHour", () => {
 
 describe("buildGuestProfiles", () => {
   test("builds one profile per guest email with a stable non-PII id", () => {
-    expect(profiles).toHaveLength(15);
-    expect(new Set(profiles.map((p) => p.guestId)).size).toBe(15);
+    expect(profiles).toHaveLength(20);
+    expect(new Set(profiles.map((p) => p.guestId)).size).toBe(20);
     expect(profiles.every((p) => /^guest-[0-9a-f]{10}$/.test(p.guestId))).toBe(true);
   });
 
@@ -42,7 +42,23 @@ describe("buildGuestProfiles", () => {
       quarters: ["Q1"],
       allergies: [],
       favouriteMains: ["Grilled Prawn Salad x3", "Barramundi x2", "Fish & Chips x1"],
+      chillVisits: 0,
+      chillShare: 0,
+      snackSpendShare: 0.277,
     });
+  });
+
+  test("spots guests who come just to chill (sides and drinks, no mains)", () => {
+    expect(byName("Noah Fischer")).toMatchObject({
+      visits: 2,
+      chillVisits: 2,
+      chillShare: 1,
+      snackSpendShare: 1,
+      happyHourShare: 1,
+      foodShare: { seafood: 0, "red meat": 0, poultry: 0, vegetarian: 0 },
+      favouriteMains: [],
+    });
+    expect(byName("Raj Patel")).toMatchObject({ visits: 2, chillVisits: 1, chillShare: 0.5, allergies: ["red meat"] });
   });
 
   test("captures VIP event hosts and their allergies", () => {
@@ -71,5 +87,13 @@ describe("profileText", () => {
 
     expect(text).toContain("Lamb Shank Ragout");
     expect(text).not.toMatch(/Daniel|Wright|@|555|allerg|seafood/i);
+  });
+
+  test("describes chill-only guests without an empty main-course sentence", () => {
+    const text = profileText(byName("Noah Fischer"));
+
+    expect(text).toContain("Comes just to chill with drinks and sides (2 of 2 visits without a main course).");
+    expect(text).not.toMatch(/Main courses ordered: \./);
+    expect(text).not.toMatch(/Favourite dishes: \./);
   });
 });

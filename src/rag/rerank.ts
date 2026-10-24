@@ -66,9 +66,12 @@ export function hybridRerank(
   if (candidates.length === 0) return [];
 
   const semantic = minMax(candidates.map((c) => -c.distance));
-  const perSignal = signals.map((s) =>
-    minMax(candidates.map((c) => s.direction * Number(toMetadata(c.profile)[s.field] ?? 0))),
-  );
+  // A signal on which every candidate is equal carries no information; averaging it in would
+  // only squash the informative signals (e.g. promoting chicken to guests who never order it).
+  const perSignal = signals
+    .map((s) => candidates.map((c) => s.direction * Number(toMetadata(c.profile)[s.field] ?? 0)))
+    .filter((column) => new Set(column).size > 1)
+    .map(minMax);
   const intent = candidates.map((_, i) =>
     perSignal.length === 0 ? 0.5 : perSignal.reduce((sum, col) => sum + (col[i] ?? 0), 0) / perSignal.length,
   );

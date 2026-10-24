@@ -24,3 +24,13 @@ INV-2025-0022,2025-10-18,19:00,Q4,Branch 2,VIP Rooms 1+2+3+4,Fine dining,Olivia 
 INV-2025-0023,2025-11-01,13:00,Q4,Branch 1,Main Hall,A la carte,Aisha Rahman,aisha.rahman@example.com,+1-555-0109,8,red meat (severe),"Roast Turkey Plate x4; Fish & Chips x2; Chicken Steak x2; Fries x4; Garden Salad x2; Soft Drink x8",302.00,30.20,332.20
 INV-2025-0024,2025-11-29,19:00,Q4,Branch 1,VIP Rooms 2+3,Fine dining,Tom Becker,tom.becker@example.com,+1-555-0110,24,none,"Roast Turkey Plate x8; Beef Steak x8; Barramundi x4; Beef Burger x4; Fries x8; Garden Salad x6; House Wine (glass) x20; Soft Drink x8",1166.00,116.60,1282.60
 INV-2025-0025,2025-12-13,20:00,Q4,Branch 2,Main Hall,A la carte,Hannah Kim,hannah.kim@example.com,+1-555-0111,2,seafood (severe); red meat (severe),"Roast Turkey Plate x1; Chicken Steak x1; Garden Salad x1; Soft Drink x2",74.00,7.40,81.40
+INV-2025-0026,2025-02-07,17:00,Q1,Branch 1,Main Hall,A la carte,Noah Fischer,noah.fischer@example.com,+1-555-0116,3,none,"Fries x2; Garden Salad x1; House Wine (glass) x4",71.00,7.10,78.10
+INV-2025-0027,2025-05-16,16:30,Q2,Branch 2,Main Hall,A la carte,Noah Fischer,noah.fischer@example.com,+1-555-0116,2,none,"Fries x1; House Wine (glass) x4",55.00,5.50,60.50
+INV-2025-0028,2025-08-15,17:15,Q3,Branch 1,Main Hall,A la carte,Zoe Laurent,zoe.laurent@example.com,+1-555-0117,4,seafood (severe),"Fries x3; Soft Drink x4; House Wine (glass) x2",63.00,6.30,69.30
+INV-2025-0029,2025-11-07,16:45,Q4,Branch 2,Main Hall,A la carte,Zoe Laurent,zoe.laurent@example.com,+1-555-0117,2,seafood (severe),"Garden Salad x2; House Wine (glass) x2",42.00,4.20,46.20
+INV-2025-0030,2025-03-14,21:00,Q1,Branch 2,Main Hall,A la carte,Ben Carter,ben.carter@example.com,+1-555-0118,2,none,"House Wine (glass) x6",72.00,7.20,79.20
+INV-2025-0031,2025-04-18,16:30,Q2,Branch 1,Main Hall,A la carte,Marco Silva,marco.silva@example.com,+1-555-0119,3,seafood (severe),"Beef Burger x2; Lamb Shank Ragout x1; Fries x2; Soft Drink x3",105.50,10.55,116.05
+INV-2025-0032,2025-07-18,17:00,Q3,Branch 2,Main Hall,A la carte,Marco Silva,marco.silva@example.com,+1-555-0119,3,seafood (severe),"Beef Steak x1; Beef Burger x2; Fries x3; House Wine (glass) x3",137.00,13.70,150.70
+INV-2025-0033,2025-10-10,16:15,Q4,Branch 1,Main Hall,A la carte,Ivy Nguyen,ivy.nguyen@example.com,+1-555-0120,3,none,"Beef Burger x3; Fries x2; Soft Drink x3",90.50,9.05,99.55
+INV-2025-0034,2025-12-05,17:30,Q4,Branch 2,Main Hall,A la carte,Ivy Nguyen,ivy.nguyen@example.com,+1-555-0120,4,none,"Beef Steak x2; Beef Burger x2; Fries x2; House Wine (glass) x4",180.00,18.00,198.00
+INV-2025-0035,2025-10-24,16:00,Q4,Branch 1,Main Hall,A la carte,Raj Patel,raj.patel@example.com,+1-555-0114,2,red meat (severe),"Fries x2; Soft Drink x2",23.00,2.30,25.30

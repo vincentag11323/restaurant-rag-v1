@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MENU_ITEM_NAMES, QUARTERS } from "../domain/menu.js";
+import { ALLERGENS, MENU_ITEM_NAMES, QUARTERS } from "../domain/menu.js";
 
 const share = z.number().min(0).max(1);
 const usd = z.number().nonnegative();
@@ -23,6 +23,22 @@ export const AudienceSchema = z
     minWinePerGuest: z.number().nonnegative(),
     minVisits: count,
     visitedQuarter: z.enum(QUARTERS),
+    /** "Non-fans": share of mains in this group is BELOW the value (exclusive). */
+    maxRedMeatShare: share,
+    maxSeafoodShare: share,
+    maxPoultryShare: share,
+    maxVegetarianShare: share,
+    /** Share of visits with no main course (came just to chill with sides and drinks). */
+    minChillShare: share,
+    /** Share of item spend on sides and drinks. */
+    minSnackSpendShare: share,
+    /** Lifetime spend across all visits. */
+    minTotalSpendUsd: usd,
+    minVipVisits: count,
+    /** Segment OF allergic guests, e.g. "who is allergic to red meat". */
+    allergicTo: z.enum(ALLERGENS),
+    /** Explicitly exclude guests with this allergy, even if no promoted dish contains it. */
+    notAllergicTo: z.enum(ALLERGENS),
   })
   .partial()
   .strict();
@@ -38,6 +54,8 @@ export const CampaignSpecSchema = z
     promotedItems: z.array(z.enum(MENU_ITEM_NAMES)).default([]),
     audience: AudienceSchema.default({}),
     limit: z.number().int().min(1).max(100).default(50),
+    /** The concrete offer (e.g. a priced bundle) the draft should promote. */
+    offer: z.string().min(3).max(600).optional(),
   })
   .strict();
 

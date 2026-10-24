@@ -6,10 +6,10 @@ const csv = readFileSync("data/mock/invoices.csv", "utf8");
 const [header = "", firstRow = ""] = csv.split("\n");
 
 describe("parseInvoicesCsv", () => {
-  test("parses all 25 mock invoices into typed records", () => {
+  test("parses all 35 mock invoices into typed records", () => {
     const invoices = parseInvoicesCsv(csv);
 
-    expect(invoices).toHaveLength(25);
+    expect(invoices).toHaveLength(35);
     expect(invoices[0]).toMatchObject({
       id: "INV-2025-0001",
       date: "2025-02-14",

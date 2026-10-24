@@ -5,14 +5,17 @@ import { parseInvoicesCsv } from "../domain/invoice.js";
 import { selectAudience } from "./audience.js";
 import { PRESET_CAMPAIGNS, findPreset } from "./presets.js";
 
-// Marketing questions answered against the 25 mock invoices. Expected audiences were derived
+// Marketing questions answered against the 35 mock invoices. Expected audiences were derived
 // by hand from data/mock/invoices.csv; see memo.txt for the thresholds behind each segment.
 const profiles = buildGuestProfiles(parseInvoicesCsv(readFileSync("data/mock/invoices.csv", "utf8")));
 const names = (list: readonly { name: string }[]) => list.map((p) => p.name).sort();
 
 const EXPECTED: Record<string, { audience: string[]; excludedForAllergy: string[] }> = {
   "red-meat-fans-steak-night": {
-    audience: ["Carlos Rivera", "Daniel Wright", "Emma Schultz", "James Okafor", "Mei Lin Wong", "Tom Becker"],
+    audience: [
+      "Carlos Rivera", "Daniel Wright", "Emma Schultz", "Ivy Nguyen",
+      "James Okafor", "Marco Silva", "Mei Lin Wong", "Tom Becker",
+    ],
     excludedForAllergy: [],
   },
   "seafood-fans-barramundi": {
@@ -25,10 +28,10 @@ const EXPECTED: Record<string, { audience: string[]; excludedForAllergy: string[
   },
   "seafood-festival-high-spenders": {
     audience: [
-      "Aisha Rahman", "Carlos Rivera", "Grace O'Brien", "Lucas Martin",
+      "Aisha Rahman", "Carlos Rivera", "Grace O'Brien", "Ivy Nguyen", "Lucas Martin",
       "Michael Chen", "Priya Nair", "Sarah Tan", "Tom Becker",
     ],
-    excludedForAllergy: ["Daniel Wright", "Emma Schultz", "Hannah Kim", "Mei Lin Wong", "Olivia Hart"],
+    excludedForAllergy: ["Daniel Wright", "Emma Schultz", "Hannah Kim", "Marco Silva", "Mei Lin Wong", "Olivia Hart"],
   },
   "vip-event-hosts-room-package": {
     audience: ["Carlos Rivera", "Grace O'Brien", "Hannah Kim", "Lucas Martin", "Olivia Hart"],
@@ -39,15 +42,18 @@ const EXPECTED: Record<string, { audience: string[]; excludedForAllergy: string[
     excludedForAllergy: ["Hannah Kim", "Olivia Hart"],
   },
   "happy-hour-regulars": {
-    audience: ["Emma Schultz", "James Okafor", "Lucas Martin", "Michael Chen", "Raj Patel", "Sarah Tan", "Tom Becker"],
+    audience: [
+      "Emma Schultz", "Ivy Nguyen", "James Okafor", "Lucas Martin", "Marco Silva", "Michael Chen",
+      "Noah Fischer", "Raj Patel", "Sarah Tan", "Tom Becker", "Zoe Laurent",
+    ],
     excludedForAllergy: [],
   },
   "budget-small-parties-lunch": {
-    audience: ["James Okafor", "Raj Patel"],
+    audience: ["Ben Carter", "James Okafor", "Noah Fischer", "Raj Patel", "Zoe Laurent"],
     excludedForAllergy: [],
   },
   "wine-lovers-steak-pairing": {
-    audience: ["Carlos Rivera", "Grace O'Brien", "James Okafor", "Sarah Tan", "Tom Becker"],
+    audience: ["Ben Carter", "Carlos Rivera", "Grace O'Brien", "James Okafor", "Noah Fischer", "Sarah Tan", "Tom Becker"],
     excludedForAllergy: ["Hannah Kim", "Olivia Hart"],
   },
   "vegetarian-risotto-q3": {
@@ -55,7 +61,7 @@ const EXPECTED: Record<string, { audience: string[]; excludedForAllergy: string[
     excludedForAllergy: [],
   },
   "q2-lamb-shank-red-meat-fans": {
-    audience: ["Carlos Rivera", "Daniel Wright", "Emma Schultz", "Tom Becker"],
+    audience: ["Carlos Rivera", "Daniel Wright", "Emma Schultz", "Marco Silva", "Tom Becker"],
     excludedForAllergy: [],
   },
   "seafood-gala-poultry-event-hosts": {
