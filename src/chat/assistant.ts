@@ -6,6 +6,7 @@ import { type Allergen, FOOD_GROUPS, type FoodGroup } from "../domain/menu.js";
 import type { CampaignReport, CampaignRunner } from "../rag/campaign-runner.js";
 import { findMentionedGuests } from "./guest-lookup.js";
 import { type Interpretation, interpretPrompt } from "./interpret.js";
+import { describeSort, dropNonAnswers, sortProfiles } from "./ordering.js";
 import { type CampaignProposal, planCampaign } from "./planner.js";
 
 export const EXAMPLE_PROMPTS: readonly string[] = [
@@ -49,13 +50,21 @@ export interface GuestDetails {
 export type AssistantReply =
   | { readonly kind: "help"; readonly examples: readonly string[] }
   | { readonly kind: "guest"; readonly guests: readonly GuestDetails[] }
-  | { readonly kind: "list"; readonly interpretation: Interpretation; readonly report: CampaignReport; readonly facts: readonly GuestFacts[] }
+  | {
+      readonly kind: "list";
+      readonly interpretation: Interpretation;
+      readonly report: CampaignReport;
+      readonly facts: readonly GuestFacts[];
+      /** e.g. "Sorted by total spend, most first · showing 3 of 20"; null when no sort/limit was asked. */
+      readonly ordering: string | null;
+    }
   | {
       readonly kind: "campaign";
       readonly interpretation: Interpretation;
       readonly proposal: CampaignProposal | null;
       readonly report: CampaignReport | null;
       readonly facts: readonly GuestFacts[];
+      readonly ordering: string | null;
     };
 
 export interface Assistant {
@@ -82,6 +91,37 @@ function toFacts(p: GuestProfile): GuestFacts {
       .filter((f) => f.mains > 0)
       .toSorted((a, b) => b.mains - a.mains),
     allergies: p.allergies,
+  };
+}
+
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+/** Narrows/reorders a report: keep only `keep` (if given), sort by the asked measure, cut to `limit`. */
+function applyOrdering(
+  report: CampaignReport,
+  i: Interpretation,
+  profiles: readonly GuestProfile[],
+  scope?: { readonly keep: ReadonlySet<string>; readonly total: number },
+): { report: CampaignReport; ordering: string | null } {
+  const inScope = report.audience.recipients.filter((r) => !scope || scope.keep.has(r.guestId));
+  const byId = new Map(inScope.map((r) => [r.guestId, r]));
+  const sorted = i.sort
+    ? sortProfiles(dropNonAnswers(profiles.filter((p) => byId.has(p.guestId)), i.sort), i.sort).flatMap(
+        (p) => byId.get(p.guestId) ?? [],
+      )
+    : inScope;
+  const shown = i.limit === undefined ? sorted : sorted.slice(0, i.limit);
+  const excluded = report.excludedForAllergy.guests.filter((g) => !scope || scope.keep.has(g.guestId));
+
+  const asked = i.sort !== undefined || i.limit !== undefined;
+  const how = i.sort ? describeSort(i.sort) : "best match first";
+  return {
+    report: {
+      ...report,
+      audience: { count: shown.length, recipients: shown },
+      excludedForAllergy: { count: excluded.length, guests: excluded },
+    },
+    ordering: asked ? capitalise(`${how} · showing ${shown.length} of ${scope?.total ?? sorted.length}`) : null,
   };
 }
 
@@ -123,14 +163,20 @@ export function createAssistant({ runner, profiles, invoices }: AssistantDeps): 
       };
 
       if (interpretation.intent === "list") {
-        const report = await runner.run(CampaignSpecSchema.parse(base));
-        return { kind: "list", interpretation, report, facts: facts(report) };
+        const ordered = applyOrdering(await runner.run(CampaignSpecSchema.parse(base)), interpretation, profiles);
+        return { kind: "list", interpretation, report: ordered.report, facts: facts(ordered.report), ordering: ordered.ordering };
       }
 
-      // Plan from who matches the rules; the bundle's allergens are then enforced by retrieval.
+      // Plan from who matches the rules; "top N by X" narrows that group BEFORE planning,
+      // so the offer is designed for exactly those guests. Allergens are enforced by retrieval.
       const matches = selectAudience(profiles, CampaignSpecSchema.parse(base)).audience;
-      const proposal = planCampaign(matches, interpretation.audience.visitedQuarter);
-      if (!proposal) return { kind: "campaign", interpretation, proposal: null, report: null, facts: [] };
+      const { sort, limit } = interpretation;
+      const scoped = sort ? sortProfiles(dropNonAnswers(matches, sort), sort).slice(0, limit ?? matches.length) : matches;
+      const scope = sort ? { keep: new Set(scoped.map((p) => p.guestId)), total: matches.length } : undefined;
+      const proposal = planCampaign(scoped, interpretation.audience.visitedQuarter);
+      if (!proposal) {
+        return { kind: "campaign", interpretation, proposal: null, report: null, facts: [], ordering: null };
+      }
 
       const items = [...new Set([...interpretation.promotedItems, ...proposal.bundle.map((l) => l.item)])];
       const spec = CampaignSpecSchema.parse({
@@ -140,8 +186,8 @@ export function createAssistant({ runner, profiles, invoices }: AssistantDeps): 
         promotedItems: items,
         offer: proposal.pitch,
       });
-      const report = await runner.run(spec);
-      return { kind: "campaign", interpretation, proposal, report, facts: facts(report) };
+      const ordered = applyOrdering(await runner.run(spec), interpretation, profiles, scope);
+      return { kind: "campaign", interpretation, proposal, report: ordered.report, facts: facts(ordered.report), ordering: ordered.ordering };
     },
   };
 }

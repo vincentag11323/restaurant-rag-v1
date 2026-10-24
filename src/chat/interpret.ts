@@ -1,6 +1,8 @@
 import { audienceConditions } from "../campaign/conditions.js";
 import { type Audience, AudienceSchema } from "../campaign/spec.js";
 import { type Allergen, type FoodGroup, MENU, type Quarter } from "../domain/menu.js";
+import { readOrdering } from "./interpret-ordering.js";
+import { type SortSpec, describeSort } from "./ordering.js";
 
 // Turns a marketer's plain-English prompt into typed audience rules WITHOUT an LLM:
 // a small, closed vocabulary that is deterministic, testable and free. Each extractor
@@ -11,6 +13,10 @@ export interface Interpretation {
   readonly intent: "campaign" | "list" | "help";
   readonly audience: Audience;
   readonly promotedItems: readonly string[];
+  /** "Rank / sort by ...": applied after filtering. */
+  readonly sort?: SortSpec;
+  /** "Top N / show N": how many guests to keep after sorting. */
+  readonly limit?: number;
   /** Plain-words echo of every rule recognised, shown back to the user. */
   readonly understood: readonly string[];
 }
@@ -91,8 +97,9 @@ function findDishes(text: string): string[] {
 }
 
 export function interpretPrompt(prompt: string): Interpretation {
-  const original = prompt.toLowerCase().replace(/[?!.]/g, " ");
-  let remaining = original;
+  const original = prompt.toLowerCase().replace(/[?!.,]/g, " ");
+  const ordering = readOrdering(original);
+  let remaining = ordering.remaining;
   let audience: Audience = {};
 
   for (const [pattern, toRules] of EXTRACTORS) {
@@ -109,10 +116,19 @@ export function interpretPrompt(prompt: string): Interpretation {
   // Echo rules in the order the user wrote them (zod re-orders keys to schema order).
   const understood = [
     ...audienceConditions(audience).map((c) => c.label),
+    ...(ordering.sort ? [describeSort(ordering.sort)] : []),
+    ...(ordering.limit !== undefined ? [`show only ${ordering.limit}`] : []),
     ...(promotedItems.length > 0 ? [`promote ${promotedItems.join(", ")}`] : []),
   ];
 
   const recognisedNothing = understood.length === 0;
   const intent = recognisedNothing ? "help" : LIST_CUE.test(original) ? "list" : CAMPAIGN_CUE.test(original) ? "campaign" : "list";
-  return { intent, audience: validated, promotedItems, understood };
+  return {
+    intent,
+    audience: validated,
+    promotedItems,
+    understood,
+    ...(ordering.sort ? { sort: ordering.sort } : {}),
+    ...(ordering.limit !== undefined ? { limit: ordering.limit } : {}),
+  };
 }

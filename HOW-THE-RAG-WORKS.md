@@ -178,6 +178,13 @@ Words the robot understands:
 | *big parties*, *event hosts* / *small parties*, *couples* | biggest party 26+ / 4 or fewer |
 | *VIP*, *Q1-Q4*, *regulars* | booked a VIP room / visited that quarter / 2+ visits |
 | *tell me about Priya Nair*, *elaborate raj* | everything about that one guest: contact, allergies, habits and every invoice |
+| *top 3 biggest spenders*, *bottom 5 by total spend* | sort by that measure, keep only that many (top = most first, bottom = least first) |
+| *rank … by visits / party size / last visit / wine*, *least to most*, *biggest first* | sort the matching guests by that measure, in that direction |
+| *who spends the most / least*, *visited most recently*, *orders the most seafood* | sort by that measure ("most X" leaves out guests with none of X) |
+| *show 2 …*, *5 guests …*, *show three …* | keep only that many |
+
+You can mix these with everything above, e.g. *"show 2 seafood fans who spend the least"* or
+*"campaign for the top 3 spenders"* (the offer is then designed for exactly those 3 guests).
 
 The robot doesn't need the internet or a paid AI for any of this. With a DeepSeek key, it also
 writes the invitation email.

@@ -42,3 +42,44 @@ describe("interpretPrompt", () => {
     expect(interpretPrompt("hello there").intent).toBe("help");
   });
 });
+
+describe("interpretPrompt: sorting and how many to show", () => {
+  test.each([
+    ["top 3 biggest spenders", {}, { metric: "totalSpend", direction: "desc" }, 3],
+    ["top 5 spenders per visit", {}, { metric: "avgSpendPerVisit", direction: "desc" }, 5],
+    ["bottom 3 by total spend", {}, { metric: "totalSpend", direction: "asc" }, 3],
+    ["rank guests by visits from least to most", {}, { metric: "visits", direction: "asc" }, undefined],
+    ["show 2 seafood fans who spend the least", { minSeafoodShare: 0.5 }, { metric: "totalSpend", direction: "asc" }, 2],
+    ["which 5 guests visited most recently", {}, { metric: "lastVisit", direction: "desc" }, 5],
+    ["who orders the most seafood", {}, { metric: "seafoodMains", direction: "desc" }, undefined],
+    ["rank red meat fans by party size, biggest first", { minRedMeatShare: 0.5 }, { metric: "largestParty", direction: "desc" }, undefined],
+    ["show three happy hour regulars", { minHappyHourShare: 0.5 }, undefined, 3],
+  ] as const)("%s", (prompt, audience, sort, limit) => {
+    const result = interpretPrompt(prompt);
+
+    expect(result.intent).toBe("list");
+    expect(result.audience).toEqual(audience);
+    expect(result.sort).toEqual(sort);
+    expect(result.limit).toBe(limit);
+  });
+
+  test("does not read money or party sizes as 'how many to show'", () => {
+    expect(interpretPrompt("who spends more than $500 per visit").limit).toBeUndefined();
+    expect(interpretPrompt("show parties of 26 or more").limit).toBeUndefined();
+  });
+
+  test("echoes the ordering in plain words", () => {
+    expect(interpretPrompt("top 3 biggest spenders").understood).toEqual([
+      "sorted by total spend, most first",
+      "show only 3",
+    ]);
+  });
+
+  test("keeps the campaign intent when sorting a campaign audience", () => {
+    expect(interpretPrompt("campaign for the top 3 spenders")).toMatchObject({
+      intent: "campaign",
+      sort: { metric: "totalSpend", direction: "desc" },
+      limit: 3,
+    });
+  });
+});

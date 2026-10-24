@@ -21,6 +21,8 @@ function ordersCell(f: GuestFacts): Html {
   )}`;
 }
 
+const orderingLine = (ordering: string | null): Html => (ordering ? html`<p class="muted">${ordering}</p>` : html``);
+
 const understoodLine = (i: Interpretation): Html =>
   html`<p class="muted">Understood as: ${i.understood.map((u) => html`<span class="chip">${u}</span>`)}</p>`;
 
@@ -85,7 +87,7 @@ function renderReply(reply: AssistantReply): Html {
   if (reply.kind === "guest") return html`${reply.guests.map(guestCard)}`;
   if (reply.kind === "list") {
     const n = reply.report.audience.count;
-    return html`${understoodLine(reply.interpretation)}
+    return html`${understoodLine(reply.interpretation)}${orderingLine(reply.ordering)}
       <p><b>${n === 0 ? "Nobody matches." : `${n} guest(s) match:`}</b></p>
       ${n > 0 ? guestTable(reply.report, reply.facts) : html``}${traceBlock(reply.report)}`;
   }
@@ -99,7 +101,7 @@ function renderReply(reply: AssistantReply): Html {
       <p>${p.bundle.map((l) => `${l.quantity}x ${l.item}`).join(" + ")}</p>
       <p class="muted">${p.timing}, dine-in · bundle for ${p.partySize}</p></div>
     <p><b>Why this offer</b></p><ul>${p.evidence.map((e) => html`<li>${e}</li>`)}</ul>
-    ${excludedBlock(report)}
+    ${excludedBlock(report)}${orderingLine(reply.ordering)}
     <p><b>Invite these ${report.audience.count} guest(s)</b>, best fit first:</p>
     ${report.audience.count > 0 ? guestTable(report, reply.facts) : html`<p>Everyone who matched is allergic to this bundle.</p>`}
     ${draftBlock(report)}${traceBlock(report)}`;
